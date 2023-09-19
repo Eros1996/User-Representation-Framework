@@ -73,3 +73,6 @@ crashlytics-build.properties
 
 /[Aa]ssets/Plugins.meta
 /[Aa]ssets/Plugins
+
+/[Aa]ssets/ThirdParty.meta
+/[Aa]ssets/ThirdParty
