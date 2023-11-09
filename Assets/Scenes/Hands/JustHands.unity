@@ -187,7 +187,7 @@ MonoBehaviour:
   m_LeftHandMesh: {fileID: 419447629}
   m_RightHandMesh: {fileID: 1453077609}
   m_HandMeshMaterial: {fileID: 2100000, guid: 613690cd962241049a0ec289a6ff835e, type: 2}
-  m_DrawMeshes: 1
+  m_DrawMeshes: 0
   m_DebugDrawPrefab: {fileID: 6507399986997092475, guid: 254b742d65a15d14b9df756ae77de868, type: 3}
   m_DebugDrawJoints: 1
   m_VelocityPrefab: {fileID: 8538602047018081646, guid: 629fd7882ec6bfc499a5fcf20035282b, type: 3}
@@ -869,37 +869,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &454229354
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 454229355}
-  m_Layer: 0
-  m_Name: Palm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &454229355
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 454229354}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.0000003754743, y: -0.00000002713879, z: -0.00000032721152, w: 1}
-  m_LocalPosition: {x: 0.00000017697172, y: 0.06387779, z: 0.00000002894242}
-  m_LocalScale: {x: 0.99999976, y: 0.9999999, z: 0.9999999}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 779520660468991415}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &455049380
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,7 +1501,7 @@ Transform:
   m_GameObject: {fileID: 547522718}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.169}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2155,93 +2124,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f18923efbd4ef4c9cdfae0026a40ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationOffset: {x: 90, y: 0, z: 0}
-  rotationThumb: {x: 45, y: -90, z: -90}
-  jointToTransformReferences: []
+  thumbRotation: {x: 0, y: 0, z: 0}
   jointToHumanBodyBones:
   - m_XRHandJointID: 1
-    mHumanBodyBoneTransform: 18
+    m_HumanBodyBoneTransform: 18
   - m_XRHandJointID: 2
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 3
-    mHumanBodyBoneTransform: 39
+    m_HumanBodyBoneTransform: 39
   - m_XRHandJointID: 4
-    mHumanBodyBoneTransform: 40
+    m_HumanBodyBoneTransform: 40
   - m_XRHandJointID: 5
-    mHumanBodyBoneTransform: 41
+    m_HumanBodyBoneTransform: 41
   - m_XRHandJointID: 6
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 7
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 8
-    mHumanBodyBoneTransform: 42
+    m_HumanBodyBoneTransform: 42
   - m_XRHandJointID: 9
-    mHumanBodyBoneTransform: 43
+    m_HumanBodyBoneTransform: 43
   - m_XRHandJointID: 10
-    mHumanBodyBoneTransform: 44
+    m_HumanBodyBoneTransform: 44
   - m_XRHandJointID: 11
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 12
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 13
-    mHumanBodyBoneTransform: 45
+    m_HumanBodyBoneTransform: 45
   - m_XRHandJointID: 14
-    mHumanBodyBoneTransform: 46
+    m_HumanBodyBoneTransform: 46
   - m_XRHandJointID: 15
-    mHumanBodyBoneTransform: 47
+    m_HumanBodyBoneTransform: 47
   - m_XRHandJointID: 16
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 17
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 18
-    mHumanBodyBoneTransform: 48
+    m_HumanBodyBoneTransform: 48
   - m_XRHandJointID: 19
-    mHumanBodyBoneTransform: 49
+    m_HumanBodyBoneTransform: 49
   - m_XRHandJointID: 20
-    mHumanBodyBoneTransform: 50
+    m_HumanBodyBoneTransform: 50
   - m_XRHandJointID: 21
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 22
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 23
-    mHumanBodyBoneTransform: 51
+    m_HumanBodyBoneTransform: 51
   - m_XRHandJointID: 24
-    mHumanBodyBoneTransform: 52
+    m_HumanBodyBoneTransform: 52
   - m_XRHandJointID: 25
-    mHumanBodyBoneTransform: 53
+    m_HumanBodyBoneTransform: 53
   - m_XRHandJointID: 26
-    mHumanBodyBoneTransform: 55
---- !u!1 &852454411
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 852454412}
-  m_Layer: 0
-  m_Name: Palm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &852454412
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852454411}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.0000003754743, y: 0.000000037091088, z: 0.00000048546184, w: 1}
-  m_LocalPosition: {x: -0.00000007977608, y: 0.06387761, z: -0.00000003610112}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5285152235873660860}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+    m_HumanBodyBoneTransform: 55
 --- !u!1 &854893618
 GameObject:
   m_ObjectHideFlags: 0
@@ -3039,62 +2975,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f18923efbd4ef4c9cdfae0026a40ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationOffset: {x: 90, y: 0, z: 0}
-  rotationThumb: {x: 45, y: -90, z: -90}
-  jointToTransformReferences: []
+  thumbRotation: {x: 0, y: 0, z: 0}
   jointToHumanBodyBones:
   - m_XRHandJointID: 1
-    mHumanBodyBoneTransform: 17
+    m_HumanBodyBoneTransform: 17
   - m_XRHandJointID: 2
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 3
-    mHumanBodyBoneTransform: 24
+    m_HumanBodyBoneTransform: 24
   - m_XRHandJointID: 4
-    mHumanBodyBoneTransform: 25
+    m_HumanBodyBoneTransform: 25
   - m_XRHandJointID: 5
-    mHumanBodyBoneTransform: 26
+    m_HumanBodyBoneTransform: 26
   - m_XRHandJointID: 6
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 7
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 8
-    mHumanBodyBoneTransform: 27
+    m_HumanBodyBoneTransform: 27
   - m_XRHandJointID: 9
-    mHumanBodyBoneTransform: 28
+    m_HumanBodyBoneTransform: 28
   - m_XRHandJointID: 10
-    mHumanBodyBoneTransform: 29
+    m_HumanBodyBoneTransform: 29
   - m_XRHandJointID: 11
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 12
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 13
-    mHumanBodyBoneTransform: 30
+    m_HumanBodyBoneTransform: 30
   - m_XRHandJointID: 14
-    mHumanBodyBoneTransform: 31
+    m_HumanBodyBoneTransform: 31
   - m_XRHandJointID: 15
-    mHumanBodyBoneTransform: 32
+    m_HumanBodyBoneTransform: 32
   - m_XRHandJointID: 16
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 17
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 18
-    mHumanBodyBoneTransform: 33
+    m_HumanBodyBoneTransform: 33
   - m_XRHandJointID: 19
-    mHumanBodyBoneTransform: 34
+    m_HumanBodyBoneTransform: 34
   - m_XRHandJointID: 20
-    mHumanBodyBoneTransform: 35
+    m_HumanBodyBoneTransform: 35
   - m_XRHandJointID: 21
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 22
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 23
-    mHumanBodyBoneTransform: 36
+    m_HumanBodyBoneTransform: 36
   - m_XRHandJointID: 24
-    mHumanBodyBoneTransform: 37
+    m_HumanBodyBoneTransform: 37
   - m_XRHandJointID: 25
-    mHumanBodyBoneTransform: 38
+    m_HumanBodyBoneTransform: 38
   - m_XRHandJointID: 26
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
 --- !u!1 &1192793386
 GameObject:
   m_ObjectHideFlags: 0
@@ -3113,7 +3047,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1192793387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3480,37 +3414,6 @@ Transform:
   - {fileID: 1383054951}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1244837835
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1244837836}
-  m_Layer: 0
-  m_Name: Palm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1244837836
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244837835}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.2, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1852576806384119025}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1286724244
 GameObject:
   m_ObjectHideFlags: 0
@@ -3626,62 +3529,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f18923efbd4ef4c9cdfae0026a40ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationOffset: {x: 90, y: 0, z: 0}
-  rotationThumb: {x: 45, y: -90, z: -90}
-  jointToTransformReferences: []
+  thumbRotation: {x: 0, y: 0, z: 0}
   jointToHumanBodyBones:
   - m_XRHandJointID: 1
-    mHumanBodyBoneTransform: 18
+    m_HumanBodyBoneTransform: 18
   - m_XRHandJointID: 2
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 3
-    mHumanBodyBoneTransform: 39
+    m_HumanBodyBoneTransform: 39
   - m_XRHandJointID: 4
-    mHumanBodyBoneTransform: 40
+    m_HumanBodyBoneTransform: 40
   - m_XRHandJointID: 5
-    mHumanBodyBoneTransform: 41
+    m_HumanBodyBoneTransform: 41
   - m_XRHandJointID: 6
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 7
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 8
-    mHumanBodyBoneTransform: 42
+    m_HumanBodyBoneTransform: 42
   - m_XRHandJointID: 9
-    mHumanBodyBoneTransform: 43
+    m_HumanBodyBoneTransform: 43
   - m_XRHandJointID: 10
-    mHumanBodyBoneTransform: 44
+    m_HumanBodyBoneTransform: 44
   - m_XRHandJointID: 11
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 12
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 13
-    mHumanBodyBoneTransform: 45
+    m_HumanBodyBoneTransform: 45
   - m_XRHandJointID: 14
-    mHumanBodyBoneTransform: 46
+    m_HumanBodyBoneTransform: 46
   - m_XRHandJointID: 15
-    mHumanBodyBoneTransform: 47
+    m_HumanBodyBoneTransform: 47
   - m_XRHandJointID: 16
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 17
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 18
-    mHumanBodyBoneTransform: 48
+    m_HumanBodyBoneTransform: 48
   - m_XRHandJointID: 19
-    mHumanBodyBoneTransform: 49
+    m_HumanBodyBoneTransform: 49
   - m_XRHandJointID: 20
-    mHumanBodyBoneTransform: 50
+    m_HumanBodyBoneTransform: 50
   - m_XRHandJointID: 21
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 22
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 23
-    mHumanBodyBoneTransform: 51
+    m_HumanBodyBoneTransform: 51
   - m_XRHandJointID: 24
-    mHumanBodyBoneTransform: 52
+    m_HumanBodyBoneTransform: 52
   - m_XRHandJointID: 25
-    mHumanBodyBoneTransform: 53
+    m_HumanBodyBoneTransform: 53
   - m_XRHandJointID: 26
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
 --- !u!1 &1388526099
 GameObject:
   m_ObjectHideFlags: 0
@@ -4520,62 +4421,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f18923efbd4ef4c9cdfae0026a40ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationOffset: {x: 90, y: 0, z: 0}
-  rotationThumb: {x: 45, y: 90, z: 90}
-  jointToTransformReferences: []
+  thumbRotation: {x: 0, y: 0, z: 0}
   jointToHumanBodyBones:
   - m_XRHandJointID: 1
-    mHumanBodyBoneTransform: 17
+    m_HumanBodyBoneTransform: 17
   - m_XRHandJointID: 2
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 3
-    mHumanBodyBoneTransform: 24
+    m_HumanBodyBoneTransform: 24
   - m_XRHandJointID: 4
-    mHumanBodyBoneTransform: 25
+    m_HumanBodyBoneTransform: 25
   - m_XRHandJointID: 5
-    mHumanBodyBoneTransform: 26
+    m_HumanBodyBoneTransform: 26
   - m_XRHandJointID: 6
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 7
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 8
-    mHumanBodyBoneTransform: 27
+    m_HumanBodyBoneTransform: 27
   - m_XRHandJointID: 9
-    mHumanBodyBoneTransform: 28
+    m_HumanBodyBoneTransform: 28
   - m_XRHandJointID: 10
-    mHumanBodyBoneTransform: 29
+    m_HumanBodyBoneTransform: 29
   - m_XRHandJointID: 11
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 12
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 13
-    mHumanBodyBoneTransform: 30
+    m_HumanBodyBoneTransform: 30
   - m_XRHandJointID: 14
-    mHumanBodyBoneTransform: 31
+    m_HumanBodyBoneTransform: 31
   - m_XRHandJointID: 15
-    mHumanBodyBoneTransform: 32
+    m_HumanBodyBoneTransform: 32
   - m_XRHandJointID: 16
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 17
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 18
-    mHumanBodyBoneTransform: 33
+    m_HumanBodyBoneTransform: 33
   - m_XRHandJointID: 19
-    mHumanBodyBoneTransform: 34
+    m_HumanBodyBoneTransform: 34
   - m_XRHandJointID: 20
-    mHumanBodyBoneTransform: 35
+    m_HumanBodyBoneTransform: 35
   - m_XRHandJointID: 21
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 22
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 23
-    mHumanBodyBoneTransform: 36
+    m_HumanBodyBoneTransform: 36
   - m_XRHandJointID: 24
-    mHumanBodyBoneTransform: 37
+    m_HumanBodyBoneTransform: 37
   - m_XRHandJointID: 25
-    mHumanBodyBoneTransform: 38
+    m_HumanBodyBoneTransform: 38
   - m_XRHandJointID: 26
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
 --- !u!4 &2015059806 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5876909491052011584, guid: b3ed8a0a703ebd34a9e44ed3d9f1fcf6, type: 3}
@@ -5302,7 +5201,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1649229345748327458}
-  - {fileID: 454229355}
   - {fileID: 456523858}
   - {fileID: 1389396277}
   - {fileID: 1427790696}
@@ -5955,7 +5853,6 @@ Transform:
   - {fileID: 1189529852282559313}
   - {fileID: 9118793901513372725}
   - {fileID: 8447082967436806087}
-  - {fileID: 1244837836}
   m_Father: {fileID: 2563496967857284753}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1862624588511809878
@@ -8088,7 +7985,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2726678931136152714}
-  - {fileID: 852454412}
   - {fileID: 283305470}
   - {fileID: 1754483176}
   - {fileID: 1788866100}
@@ -9745,62 +9641,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f18923efbd4ef4c9cdfae0026a40ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationOffset: {x: 90, y: 0, z: 0}
-  rotationThumb: {x: 45, y: -90, z: -90}
-  jointToTransformReferences: []
+  thumbRotation: {x: 0, y: 0, z: 0}
   jointToHumanBodyBones:
   - m_XRHandJointID: 1
-    mHumanBodyBoneTransform: 17
+    m_HumanBodyBoneTransform: 17
   - m_XRHandJointID: 2
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 3
-    mHumanBodyBoneTransform: 24
+    m_HumanBodyBoneTransform: 24
   - m_XRHandJointID: 4
-    mHumanBodyBoneTransform: 25
+    m_HumanBodyBoneTransform: 25
   - m_XRHandJointID: 5
-    mHumanBodyBoneTransform: 26
+    m_HumanBodyBoneTransform: 26
   - m_XRHandJointID: 6
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 7
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 8
-    mHumanBodyBoneTransform: 27
+    m_HumanBodyBoneTransform: 27
   - m_XRHandJointID: 9
-    mHumanBodyBoneTransform: 28
+    m_HumanBodyBoneTransform: 28
   - m_XRHandJointID: 10
-    mHumanBodyBoneTransform: 29
+    m_HumanBodyBoneTransform: 29
   - m_XRHandJointID: 11
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 12
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 13
-    mHumanBodyBoneTransform: 30
+    m_HumanBodyBoneTransform: 30
   - m_XRHandJointID: 14
-    mHumanBodyBoneTransform: 31
+    m_HumanBodyBoneTransform: 31
   - m_XRHandJointID: 15
-    mHumanBodyBoneTransform: 32
+    m_HumanBodyBoneTransform: 32
   - m_XRHandJointID: 16
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 17
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 18
-    mHumanBodyBoneTransform: 33
+    m_HumanBodyBoneTransform: 33
   - m_XRHandJointID: 19
-    mHumanBodyBoneTransform: 34
+    m_HumanBodyBoneTransform: 34
   - m_XRHandJointID: 20
-    mHumanBodyBoneTransform: 35
+    m_HumanBodyBoneTransform: 35
   - m_XRHandJointID: 21
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 22
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 23
-    mHumanBodyBoneTransform: 36
+    m_HumanBodyBoneTransform: 36
   - m_XRHandJointID: 24
-    mHumanBodyBoneTransform: 37
+    m_HumanBodyBoneTransform: 37
   - m_XRHandJointID: 25
-    mHumanBodyBoneTransform: 38
+    m_HumanBodyBoneTransform: 38
   - m_XRHandJointID: 26
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
 --- !u!1 &8022515958419275290
 GameObject:
   m_ObjectHideFlags: 0
@@ -10160,62 +10054,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f18923efbd4ef4c9cdfae0026a40ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationOffset: {x: 90, y: 0, z: 0}
-  rotationThumb: {x: 45, y: -90, z: -90}
-  jointToTransformReferences: []
+  thumbRotation: {x: 0, y: 0, z: 0}
   jointToHumanBodyBones:
   - m_XRHandJointID: 1
-    mHumanBodyBoneTransform: 18
+    m_HumanBodyBoneTransform: 18
   - m_XRHandJointID: 2
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 3
-    mHumanBodyBoneTransform: 39
+    m_HumanBodyBoneTransform: 39
   - m_XRHandJointID: 4
-    mHumanBodyBoneTransform: 40
+    m_HumanBodyBoneTransform: 40
   - m_XRHandJointID: 5
-    mHumanBodyBoneTransform: 41
+    m_HumanBodyBoneTransform: 41
   - m_XRHandJointID: 6
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 7
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 8
-    mHumanBodyBoneTransform: 42
+    m_HumanBodyBoneTransform: 42
   - m_XRHandJointID: 9
-    mHumanBodyBoneTransform: 43
+    m_HumanBodyBoneTransform: 43
   - m_XRHandJointID: 10
-    mHumanBodyBoneTransform: 44
+    m_HumanBodyBoneTransform: 44
   - m_XRHandJointID: 11
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 12
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 13
-    mHumanBodyBoneTransform: 45
+    m_HumanBodyBoneTransform: 45
   - m_XRHandJointID: 14
-    mHumanBodyBoneTransform: 46
+    m_HumanBodyBoneTransform: 46
   - m_XRHandJointID: 15
-    mHumanBodyBoneTransform: 47
+    m_HumanBodyBoneTransform: 47
   - m_XRHandJointID: 16
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 17
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 18
-    mHumanBodyBoneTransform: 48
+    m_HumanBodyBoneTransform: 48
   - m_XRHandJointID: 19
-    mHumanBodyBoneTransform: 49
+    m_HumanBodyBoneTransform: 49
   - m_XRHandJointID: 20
-    mHumanBodyBoneTransform: 50
+    m_HumanBodyBoneTransform: 50
   - m_XRHandJointID: 21
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 22
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
   - m_XRHandJointID: 23
-    mHumanBodyBoneTransform: 51
+    m_HumanBodyBoneTransform: 51
   - m_XRHandJointID: 24
-    mHumanBodyBoneTransform: 52
+    m_HumanBodyBoneTransform: 52
   - m_XRHandJointID: 25
-    mHumanBodyBoneTransform: 53
+    m_HumanBodyBoneTransform: 53
   - m_XRHandJointID: 26
-    mHumanBodyBoneTransform: 55
+    m_HumanBodyBoneTransform: 55
 --- !u!1 &8471895808564059050
 GameObject:
   m_ObjectHideFlags: 0
