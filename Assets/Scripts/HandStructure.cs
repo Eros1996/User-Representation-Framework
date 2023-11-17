@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Leap.Unity;
+using RootMotion.FinalIK;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -42,7 +43,7 @@ public struct JointToHumanBodyBonesReference
 
 public class HandStructure : MonoBehaviour
 {
-    public Vector3 thumbRotation;
+    public Vector3 wristRotationOffset;
     [Tooltip("List of XR Hand Joints with a reference to a transform to drive.")]
     public List<JointToHumanBodyBonesReference> jointToHumanBodyBones;
 
@@ -56,9 +57,14 @@ public class HandStructure : MonoBehaviour
     
     void Start()
     {
-        m_Animator = GetComponentInParent<Animator>(); 
-        poseHandler = new HumanPoseHandler(m_Animator.avatar, m_Animator.transform);
-        poseHandler.GetHumanPose(ref m_HumanPose);
+        LoadSubsystem();
+    }
+
+    private void LoadSubsystem()
+    {
+        m_Animator = GetComponentInParent<Animator>();
+        //poseHandler = new HumanPoseHandler(m_Animator.avatar, m_Animator.transform);
+        //poseHandler.GetHumanPose(ref m_HumanPose);
 
         var handSubsystems = new List<XRHandSubsystem>();
         SubsystemManager.GetSubsystems(handSubsystems);
@@ -77,6 +83,11 @@ public class HandStructure : MonoBehaviour
         {
             m_HandSubsystem.updatedHands += OnUpdatedHands;
         }
+    }
+
+    private void OnEnable()
+    {
+        LoadSubsystem();
     }
 
     [ContextMenu("HumanTraitBoneName")]
@@ -172,40 +183,42 @@ public class HandStructure : MonoBehaviour
                 var xrRightHand = subsystem.rightHand;
                 var xrLeftHand = subsystem.leftHand;
 
-                if (xrRightHand.isTracked && this.name.Contains("Right"))
+                if (xrRightHand.isTracked)
                 {
                     //UpdateHumanBodyBones(xrRightHand, "Right hand");
-                    UpdateFingersTransform(xrRightHand, "Right hand");
+                    //UpdateFingersTransform(xrRightHand, "Right hand");
                 }
                 else
                 {
-                    PrecomputeHumanPose();
+                    //PrecomputeHumanPose();
                 }
 
-                if (xrLeftHand.isTracked && this.name.Contains("Left"))
+                if (xrLeftHand.isTracked)
                 {
                     //UpdateHumanBodyBones(xrLeftHand, "Left hand");
                     UpdateFingersTransform(xrLeftHand, "Left hand");
                 }
                 else
                 {
-                    PrecomputeHumanPose();
+                    //PrecomputeHumanPose();
                 }
                 break;
         }
     }
-
+    
     void UpdateFingersTransform(XRHand hand, string str)
     {
+        Debug.Log(str);
         var wristIndex = XRHandJointID.Wrist.ToIndex();
         var wristJoint = jointToHumanBodyBones[wristIndex].xrHandJointID;
         var wristTrackingData = hand.GetJoint(wristJoint);
         if (wristTrackingData.TryGetPose(out var wristJointPose))
         {
-            var wristHumanBodyBones = jointToHumanBodyBones[wristIndex].humanBodyBoneTransform;
-            var wristTransform = m_Animator.GetBoneTransform(wristHumanBodyBones);
-            wristTransform.localRotation = wristJointPose.rotation;
-            
+            // var wristHumanBodyBones = jointToHumanBodyBones[wristIndex].humanBodyBoneTransform;
+            // var wristTransform = m_Animator.GetBoneTransform(wristHumanBodyBones);
+            // wristTransform.localRotation = wristJointPose.rotation;
+            // wristTransform.localPosition = wristJointPose.position;
+                
             for (var fingerIndex = (int)XRHandFingerID.Thumb;
                  fingerIndex <= (int)XRHandFingerID.Little;
                  ++fingerIndex)
@@ -228,9 +241,39 @@ public class HandStructure : MonoBehaviour
                     {
                         CalculateLocalTransformPose(parentPose, fingerJointPose, out var jointLocalPose);
                         parentPose = fingerJointPose;
-                        var fingerTransform = m_Animator.GetBoneTransform(fingerHumanBodyBones);
+                        var fingerTransform = m_Animator.GetBoneTransform(fingerHumanBodyBones); 
                         fingerTransform.localRotation = jointLocalPose.rotation;
+                        fingerTransform.position = fingerJointPose.position;
                     }
+                }
+            }
+        }
+    }
+    
+     void UpdateFingersTransform(XRHand hand)
+    {
+        for (var fingerIndex = (int)XRHandFingerID.Thumb;
+             fingerIndex <= (int)XRHandFingerID.Little;
+             ++fingerIndex)
+        {
+            var fingerId = (XRHandFingerID)fingerIndex;
+            var jointIndexBack = fingerId.GetBackJointID().ToIndex();
+            var jointIndexFront = fingerId.GetFrontJointID().ToIndex();
+            for (var jointIndex = jointIndexFront;
+                 jointIndex <= jointIndexBack;
+                 ++jointIndex)
+            {
+                var fingerHumanBodyBones = jointToHumanBodyBones[jointIndex].humanBodyBoneTransform;
+                if(fingerHumanBodyBones == HumanBodyBones.LastBone)
+                    continue;
+                    
+                var fingerJoint = jointToHumanBodyBones[jointIndex].xrHandJointID;
+                var fingerTrackingData = hand.GetJoint(fingerJoint);
+                if (fingerTrackingData.TryGetPose(out var fingerJointPose))
+                {
+                    var fingerTransform = m_Animator.GetBoneTransform(fingerHumanBodyBones);
+                    fingerTransform.localRotation = fingerJointPose.rotation;
+                    fingerTransform.position = fingerJointPose.position;
                 }
             }
         }
@@ -248,84 +291,84 @@ public class HandStructure : MonoBehaviour
         
     }
 
-    void UpdateHumanBodyBones(XRHand hand, string str)
-    {
-        for(var i = XRHandJointID.BeginMarker.ToIndex(); i < XRHandJointID.EndMarker.ToIndex(); i++)
-        {
-            var xrHandJoint = jointToHumanBodyBones[i].xrHandJointID;
-            var humanBodyBones = jointToHumanBodyBones[i].humanBodyBoneTransform;
-
-            if (humanBodyBones == HumanBodyBones.LastBone || xrHandJoint == XRHandJointID.Wrist) continue;
-            var trackingData = hand.GetJoint(xrHandJoint);
-            if (trackingData.TryGetPose(out Pose pose))
-            {
-                if (trackingData.trackingState is XRHandJointTrackingState.WillNeverBeValid or XRHandJointTrackingState.None)
-                {
-                    Debug.Log("NONE OR NEVER BE VALID" + str + " -> " + trackingData.id);
-                }
-                else
-                {
-                    int muscleIndexStretched, muscleIndexSpread = 0;
-                    float remappedVal = 0;
-                    var poseRot = pose.rotation.eulerAngles;
-                    
-                    switch (xrHandJoint)
-                    {
-                        case XRHandJointID.ThumbMetacarpal:
-                            muscleIndexSpread = HumanTrait.MuscleFromBone((int)humanBodyBones, 1);
-                            //remappedVal = Mathf.Clamp(poseRot.x, HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread));
-                            remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread),  poseRot.x);
-                            remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread), -1, 1, remappedVal);
-                            m_HumanPose.muscles[muscleIndexSpread] = remappedVal;
-
-                            //Debug.Log(HumanTrait.MuscleName[muscleIndexSpread] + " -> min: " + HumanTrait.GetMuscleDefaultMin(muscleIndexSpread)*m_Animator.humanScale + " max: " + HumanTrait.GetMuscleDefaultMax(muscleIndexSpread)*m_Animator.humanScale + " rot " + poseRot.x);
-                                
-                            muscleIndexStretched = HumanTrait.MuscleFromBone((int)humanBodyBones, 2);
-                            //remappedVal = Mathf.Clamp(poseRot.z, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched));
-                            remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched),  poseRot.z);
-                            remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched), -1, 1, remappedVal);
-                            m_HumanPose.muscles[muscleIndexStretched] = remappedVal;
-                            
-                            //Debug.Log(HumanTrait.MuscleName[muscleIndexStretched] + " -> min: " + HumanTrait.GetMuscleDefaultMin(muscleIndexStretched)*m_Animator.humanScale + " max: " + HumanTrait.GetMuscleDefaultMax(muscleIndexStretched)*m_Animator.humanScale + " rot " + poseRot.z);
-                            break;
-                        case XRHandJointID.ThumbProximal:
-                        case XRHandJointID.ThumbDistal:
-                            muscleIndexStretched = HumanTrait.MuscleFromBone((int)humanBodyBones, 2);
-                            //remappedVal = Mathf.Clamp(poseRot.z, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched));
-                            remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched),  poseRot.z);
-                            remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched), -1, 1, remappedVal);
-                            m_HumanPose.muscles[muscleIndexStretched] = remappedVal;
-                            break;
-                        case XRHandJointID.IndexProximal:
-                        case XRHandJointID.MiddleProximal:
-                        case XRHandJointID.RingProximal:
-                        case XRHandJointID.LittleProximal:
-                            muscleIndexSpread = HumanTrait.MuscleFromBone((int)humanBodyBones, 1);
-                            //remappedVal = Mathf.Clamp(poseRot.z, HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread));
-                            remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread),  poseRot.z);
-                            remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread), -1, 1, remappedVal);
-                            m_HumanPose.muscles[muscleIndexSpread] = remappedVal;
-                            //Debug.Log(HumanTrait.MuscleName[muscleIndexSpread] + " -> min: " + HumanTrait.GetMuscleDefaultMin(muscleIndexSpread) *m_Animator.humanScale+ " max: " + HumanTrait.GetMuscleDefaultMax(muscleIndexSpread)*m_Animator.humanScale + " rot " + poseRot.z);
-
-                            muscleIndexStretched = HumanTrait.MuscleFromBone((int)humanBodyBones, 2);
-                            //remappedVal = Mathf.Clamp(poseRot.x, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched));
-                            remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched),  poseRot.x);
-                            remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched), -1, 1, remappedVal);
-                            m_HumanPose.muscles[muscleIndexStretched] = remappedVal;
-                            //Debug.Log(HumanTrait.MuscleName[muscleIndexStretched] + " -> min: " + HumanTrait.GetMuscleDefaultMin(muscleIndexStretched)*m_Animator.humanScale + " max: " + HumanTrait.GetMuscleDefaultMax(muscleIndexStretched)*m_Animator.humanScale + " rot " + poseRot.x);
-                            break;
-                        default:
-                            muscleIndexStretched = HumanTrait.MuscleFromBone((int)humanBodyBones, 2);
-                            //remappedVal = Mathf.Clamp(poseRot.x, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched));
-                            remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched),  poseRot.x);
-                            remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched), -1, 1, remappedVal);
-                            m_HumanPose.muscles[muscleIndexStretched] = remappedVal;
-                            Debug.Log(HumanTrait.MuscleName[muscleIndexStretched] + " -> min: " + HumanTrait.GetMuscleDefaultMin(muscleIndexStretched)*m_Animator.humanScale + " max: " + HumanTrait.GetMuscleDefaultMax(muscleIndexStretched)*m_Animator.humanScale + " rot " + poseRot.x);
-                            break;
-                    }
-                }
-            }
-        }
-        poseHandler.SetHumanPose(ref m_HumanPose);
-    }
+    // void UpdateHumanBodyBones(XRHand hand, string str)
+    // {
+    //     for(var i = XRHandJointID.BeginMarker.ToIndex(); i < XRHandJointID.EndMarker.ToIndex(); i++)
+    //     {
+    //         var xrHandJoint = jointToHumanBodyBones[i].xrHandJointID;
+    //         var humanBodyBones = jointToHumanBodyBones[i].humanBodyBoneTransform;
+    //
+    //         if (humanBodyBones == HumanBodyBones.LastBone || xrHandJoint == XRHandJointID.Wrist) continue;
+    //         var trackingData = hand.GetJoint(xrHandJoint);
+    //         if (trackingData.TryGetPose(out Pose pose))
+    //         {
+    //             if (trackingData.trackingState is XRHandJointTrackingState.WillNeverBeValid or XRHandJointTrackingState.None)
+    //             {
+    //                 Debug.Log("NONE OR NEVER BE VALID" + str + " -> " + trackingData.id);
+    //             }
+    //             else
+    //             {
+    //                 int muscleIndexStretched, muscleIndexSpread = 0;
+    //                 float remappedVal = 0;
+    //                 var poseRot = pose.rotation.eulerAngles;
+    //                 
+    //                 switch (xrHandJoint)
+    //                 {
+    //                     case XRHandJointID.ThumbMetacarpal:
+    //                         muscleIndexSpread = HumanTrait.MuscleFromBone((int)humanBodyBones, 1);
+    //                         //remappedVal = Mathf.Clamp(poseRot.x, HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread));
+    //                         remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread),  poseRot.x);
+    //                         remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread), -1, 1, remappedVal);
+    //                         m_HumanPose.muscles[muscleIndexSpread] = remappedVal;
+    //
+    //                         //Debug.Log(HumanTrait.MuscleName[muscleIndexSpread] + " -> min: " + HumanTrait.GetMuscleDefaultMin(muscleIndexSpread)*m_Animator.humanScale + " max: " + HumanTrait.GetMuscleDefaultMax(muscleIndexSpread)*m_Animator.humanScale + " rot " + poseRot.x);
+    //                             
+    //                         muscleIndexStretched = HumanTrait.MuscleFromBone((int)humanBodyBones, 2);
+    //                         //remappedVal = Mathf.Clamp(poseRot.z, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched));
+    //                         remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched),  poseRot.z);
+    //                         remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched), -1, 1, remappedVal);
+    //                         m_HumanPose.muscles[muscleIndexStretched] = remappedVal;
+    //                         
+    //                         //Debug.Log(HumanTrait.MuscleName[muscleIndexStretched] + " -> min: " + HumanTrait.GetMuscleDefaultMin(muscleIndexStretched)*m_Animator.humanScale + " max: " + HumanTrait.GetMuscleDefaultMax(muscleIndexStretched)*m_Animator.humanScale + " rot " + poseRot.z);
+    //                         break;
+    //                     case XRHandJointID.ThumbProximal:
+    //                     case XRHandJointID.ThumbDistal:
+    //                         muscleIndexStretched = HumanTrait.MuscleFromBone((int)humanBodyBones, 2);
+    //                         //remappedVal = Mathf.Clamp(poseRot.z, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched));
+    //                         remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched),  poseRot.z);
+    //                         remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched), -1, 1, remappedVal);
+    //                         m_HumanPose.muscles[muscleIndexStretched] = remappedVal;
+    //                         break;
+    //                     case XRHandJointID.IndexProximal:
+    //                     case XRHandJointID.MiddleProximal:
+    //                     case XRHandJointID.RingProximal:
+    //                     case XRHandJointID.LittleProximal:
+    //                         muscleIndexSpread = HumanTrait.MuscleFromBone((int)humanBodyBones, 1);
+    //                         //remappedVal = Mathf.Clamp(poseRot.z, HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread));
+    //                         remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread),  poseRot.z);
+    //                         remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexSpread), HumanTrait.GetMuscleDefaultMax(muscleIndexSpread), -1, 1, remappedVal);
+    //                         m_HumanPose.muscles[muscleIndexSpread] = remappedVal;
+    //                         //Debug.Log(HumanTrait.MuscleName[muscleIndexSpread] + " -> min: " + HumanTrait.GetMuscleDefaultMin(muscleIndexSpread) *m_Animator.humanScale+ " max: " + HumanTrait.GetMuscleDefaultMax(muscleIndexSpread)*m_Animator.humanScale + " rot " + poseRot.z);
+    //
+    //                         muscleIndexStretched = HumanTrait.MuscleFromBone((int)humanBodyBones, 2);
+    //                         //remappedVal = Mathf.Clamp(poseRot.x, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched));
+    //                         remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched),  poseRot.x);
+    //                         remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched), -1, 1, remappedVal);
+    //                         m_HumanPose.muscles[muscleIndexStretched] = remappedVal;
+    //                         //Debug.Log(HumanTrait.MuscleName[muscleIndexStretched] + " -> min: " + HumanTrait.GetMuscleDefaultMin(muscleIndexStretched)*m_Animator.humanScale + " max: " + HumanTrait.GetMuscleDefaultMax(muscleIndexStretched)*m_Animator.humanScale + " rot " + poseRot.x);
+    //                         break;
+    //                     default:
+    //                         muscleIndexStretched = HumanTrait.MuscleFromBone((int)humanBodyBones, 2);
+    //                         //remappedVal = Mathf.Clamp(poseRot.x, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched));
+    //                         remappedVal = math.remap(0, 360, HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched),  poseRot.x);
+    //                         remappedVal = math.remap(HumanTrait.GetMuscleDefaultMin(muscleIndexStretched), HumanTrait.GetMuscleDefaultMax(muscleIndexStretched), -1, 1, remappedVal);
+    //                         m_HumanPose.muscles[muscleIndexStretched] = remappedVal;
+    //                         //Debug.Log(HumanTrait.MuscleName[muscleIndexStretched] + " -> min: " + HumanTrait.GetMuscleDefaultMin(muscleIndexStretched)*m_Animator.humanScale + " max: " + HumanTrait.GetMuscleDefaultMax(muscleIndexStretched)*m_Animator.humanScale + " rot " + poseRot.x);
+    //                         break;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     poseHandler.SetHumanPose(ref m_HumanPose);
+    // }
 }
