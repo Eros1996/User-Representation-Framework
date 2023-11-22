@@ -31,10 +31,14 @@ public class OnButtonPress : MonoBehaviour
     private void OnEnable()
     {
         action.Enable();
+        action.started += Pressed;
+        action.canceled += Released;
     }
 
     private void OnDisable()
     {
+        action.started -= Pressed;
+        action.canceled -= Released;
         action.Disable();
     }
 
