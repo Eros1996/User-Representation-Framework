@@ -18,8 +18,9 @@ public class OnButtonPress : MonoBehaviour
 
     private void Awake()
     {
-        action.started += Pressed;
-        action.canceled += Released;
+        action = new InputAction();
+        // action.started += Pressed;
+        // action.canceled += Released;
     }
 
     private void OnDestroy()
