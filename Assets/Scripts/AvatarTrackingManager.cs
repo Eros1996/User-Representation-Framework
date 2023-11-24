@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RootMotion.Demos;
 using RootMotion.FinalIK;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
@@ -44,9 +45,9 @@ public class AvatarTrackingManager : MonoBehaviour
     
     private void SetupVrikCalibrationInformation()
     {
-        m_VRIK = gameObject.AddComponent<VRIK>();
-        SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, 0);
-        m_calibrationController = gameObject.AddComponent<VRIKCalibrationController>();
+        m_VRIK = GetComponent<VRIK>() ?? gameObject.AddComponent<VRIK>();
+        SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, 1);
+        m_calibrationController = GetComponent<VRIKCalibrationController>() ?? gameObject.AddComponent<VRIKCalibrationController>();
         m_calibrationController.ik = m_VRIK;
         m_calibrationController.headTracker = m_XRHead;
     }
@@ -68,25 +69,27 @@ public class AvatarTrackingManager : MonoBehaviour
         m_XRRC = m_InputModalityManager.rightController.transform.Find("Right Arm IK_target");
         m_XRLH = m_XRLeftHandSkeletonDriver.jointTransformReferences[XRHandJointID.Wrist.ToIndex()].jointTransform.Find("Left Arm IK_target");
         m_XRRH = m_XRRightHandSkeletonDriver.jointTransformReferences[XRHandJointID.Wrist.ToIndex()].jointTransform.Find("Right Arm IK_target");
-        m_XRLF = GameObject.Find("Left Foot IK_target").transform;
-        m_XRRF = GameObject.Find("Right Foot IK_target").transform;
-        m_XRP = GameObject.Find("Pelvis IK_target").transform;
-        //m_ButtonsInput = m_XRParent.AddComponent<OnButtonPress>();
-        //m_ButtonsInput.action.AddBinding("<XRController>{LeftHand}/secondaryButton");
-        //m_ButtonsInput.OnPress.AddListener(StartVRIKCalibration);
+        m_XRLF = GameObject.Find("Left Foot IK_target").transform.localPosition == Vector3.zero ? null : GameObject.Find("Left Foot IK_target").transform;
+        m_XRRF = GameObject.Find("Right Foot IK_target").transform.localPosition == Vector3.zero ? null : GameObject.Find("Right Foot IK_target").transform;
+        m_XRP = GameObject.Find("Pelvis IK_target").transform.localPosition == Vector3.zero ? null : GameObject.Find("Pelvis IK_target").transform;
+        
+        m_ButtonsInput = m_XRParent.GetComponent<OnButtonPress>() ?? m_XRParent.AddComponent<OnButtonPress>();
+        m_ButtonsInput.action.AddBinding("<XRController>{LeftHand}/secondaryButton");
+        m_ButtonsInput.OnPress.AddListener(StartVRIKCalibration);
     }
 
     private void FindAvatarComponents()
     {
-        m_Animator = GetComponent<Animator>();
+        m_Animator = GetComponent<Animator>() ?? gameObject.AddComponent<Animator>();
         m_animatorController = m_Animator.runtimeAnimatorController;
         
-        m_AnimationInput = GetComponent<AnimateOnInput>();
+        m_AnimationInput = GetComponent<AnimateOnInput>() ?? gameObject.AddComponent<AnimateOnInput>();
         
         m_AvLeftHand = m_Animator.GetBoneTransform(HumanBodyBones.LeftHand).gameObject;
         m_AvRightHand = m_Animator.GetBoneTransform(HumanBodyBones.RightHand).gameObject;
-        m_HandStructureL = m_AvLeftHand.AddComponent<FingersRetargeting>();
-        m_HandStructureR = m_AvRightHand.AddComponent<FingersRetargeting>();
+        
+        m_HandStructureL = m_AvLeftHand.GetComponent<FingersRetargeting>() ?? m_AvLeftHand.AddComponent<FingersRetargeting>();
+        m_HandStructureR = m_AvRightHand.GetComponent<FingersRetargeting>() ?? m_AvRightHand.AddComponent<FingersRetargeting>();
         m_HandStructureR.isRightHand = true;
         m_HandStructureL.SetupJointsToHumanBodyBones();
         m_HandStructureR.SetupJointsToHumanBodyBones();

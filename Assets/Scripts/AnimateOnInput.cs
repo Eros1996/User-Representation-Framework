@@ -17,14 +17,14 @@ public class AnimateOnInput : MonoBehaviour
     public List<AnimationInput> animationInputs;
     
     private Animator m_Animator;
-    
+
     private void Awake()
     {
         m_Animator = this.GetComponent<Animator>();
         m_Animator.writeDefaultValuesOnDisable = true;
     }
-
-    void LateUpdate()
+    
+    private void LateUpdate()
     {
         foreach (var item in animationInputs)
         {

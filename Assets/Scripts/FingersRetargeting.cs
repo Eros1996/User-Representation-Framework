@@ -58,7 +58,6 @@ public class FingersRetargeting : MonoBehaviour
     private Animator m_Animator;
     private HumanPoseHandler poseHandler;
     private bool m_IsHandTrackingStarted;
-    private HumanPose m_HumanPose;
     private XRHandTrackingEvents m_XRHandTrackingEvents;
     private GameObject worlds, locals, cubeWorld, cubeLocal;
     private GameObject m_XRRig;
@@ -323,7 +322,6 @@ public class FingersRetargeting : MonoBehaviour
         jointLocalPose.position = inverseParentRotation * (jointPose.position - parentPose.position);
         jointLocalPose.rotation = inverseParentRotation * jointPose.rotation;
     }
-
     
     // void UpdateHumanBodyBones(XRHand hand)
     // {
