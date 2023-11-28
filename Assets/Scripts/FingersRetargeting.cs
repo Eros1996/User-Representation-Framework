@@ -46,11 +46,11 @@ public struct JointToHumanBodyBonesReference
 public class FingersRetargeting : MonoBehaviour
 {
     public bool isRightHand;
-    public Vector3 proximalRotationOffset;
-    public Vector3 intermediateRotationOffset;
-    public Vector3 distalRotationOffset;
-    public Vector3 thumbRotationOffset;
-    public Vector3 metacarpalRotationOffset;
+    // public Vector3 proximalRotationOffset;
+    // public Vector3 intermediateRotationOffset;
+    // public Vector3 distalRotationOffset;
+    // public Vector3 thumbRotationOffset;
+    // public Vector3 metacarpalRotationOffset;
     public List<JointToHumanBodyBonesReference> jointToHumanBodyBones;
 
     private List<Transform> m_Fingers;
@@ -67,8 +67,8 @@ public class FingersRetargeting : MonoBehaviour
     private Vector3 m_ProximalRotationOffset = new Vector3(90, 90, 90);
     private Vector3 m_IntermediateRotationOffset = new Vector3(90, 90, 90);
     private Vector3 m_DistalRotationOffset = new Vector3(90, 90, 90);
-    public Vector3 m_ThumbRotationOffset = new Vector3();
-    public Vector3 m_MetacarpalRotationOffset = new Vector3();
+    private Vector3 m_ThumbRotationOffset = new Vector3();
+    private Vector3 m_MetacarpalRotationOffset = new Vector3();
     
     private void Awake()
     {
@@ -76,13 +76,12 @@ public class FingersRetargeting : MonoBehaviour
         m_InputModalityManager = m_XRRig.GetComponent<XRInputModalityManager>();
         m_XRHandTrackingEvents = isRightHand ? m_InputModalityManager.rightHand.GetComponentInChildren<XRHandTrackingEvents>() : m_InputModalityManager.leftHand.GetComponentInChildren<XRHandTrackingEvents>();;
         m_Animator = GetComponentInParent<Animator>();
-        LoadSubsystem();
     }
-
+    
     private void OnEnable()
     {
-        LoadSubsystem();
         m_IsScaleFix = false;
+        LoadSubsystem();
     }
 
     private void OnDisable()
@@ -104,15 +103,13 @@ public class FingersRetargeting : MonoBehaviour
         var avtScale = Vector3.Distance(avtWrist.position, avtMiddleDistalTransform.position);
         var xrScale = Vector3.Distance(xrWristJointPose.position, xrMiddleDistalJointPose.position);
         m_HandScale = xrScale / avtScale;
+        
         this.transform.localScale = Vector3.one * m_HandScale;
     }
     
     private void LoadSubsystem()
     {
-        if (m_HandSubsystem != null)
-        {
-            return;
-        }
+        if (m_HandSubsystem is not null) return;
         
         var handSubsystems = new List<XRHandSubsystem>();
         SubsystemManager.GetSubsystems(handSubsystems);
@@ -129,8 +126,9 @@ public class FingersRetargeting : MonoBehaviour
 
         if (m_HandSubsystem != null)
         {
+            // Debug.Log("Update fingers");
             m_HandSubsystem.updatedHands += OnUpdatedHands;
-            //m_XRHandTrackingEvents.jointsUpdated.AddListener(UpdateJoints);
+            m_XRHandTrackingEvents.jointsUpdated.AddListener(UpdateJoints);
         }
     }
 

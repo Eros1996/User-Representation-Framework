@@ -6118,6 +6118,7 @@ GameObject:
   - component: {fileID: 2013053460}
   - component: {fileID: 2013053461}
   - component: {fileID: 2013053462}
+  - component: {fileID: 2013053463}
   m_Layer: 0
   m_Name: Remy
   m_TagString: Untagged
@@ -6176,7 +6177,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2013053456}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e33009c966b50fe4a8a677418d3d56f3, type: 3}
   m_Name: 
@@ -6246,6 +6247,18 @@ MonoBehaviour:
         m_SingletonActionBindings: []
         m_Flags: 0
       m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+--- !u!114 &2013053463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013053456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f4c6f86be00a4c4b976bc7e40145393, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2038691985
 GameObject:
   m_ObjectHideFlags: 0

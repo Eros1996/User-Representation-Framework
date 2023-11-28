@@ -2989,7 +2989,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &835576961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3408,6 +3408,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Interaction Hands Setup
       objectReference: {fileID: 0}
+    - target: {fileID: 865075385244835223, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3489755654699711439, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
@@ -3506,12 +3510,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4763085287912399981, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
       propertyPath: m_ActionAssets.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4763085287912399981, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
+      propertyPath: m_ActionAssets.Array.data[0]
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     - target: {fileID: 4763085287912399981, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
       propertyPath: m_ActionAssets.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: -944628639613478452, guid: d43345ef55b47e54b9f79c2514970bcd, type: 3}
     - target: {fileID: 4883199610514600726, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
       propertyPath: m_Materials.Array.size
       value: 2
@@ -3590,7 +3598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5878849512590031469, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
       propertyPath: m_DrawMeshes
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5878849512590031469, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
       propertyPath: m_HandMeshMaterial
@@ -3607,6 +3615,14 @@ PrefabInstance:
     - target: {fileID: 7838028093091575039, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
       propertyPath: m_RightHandMoveAction.m_UseReference
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7990873191187716717, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7990873191231833673, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
+      propertyPath: near clip plane
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8107088948695368048, guid: 5eccbf4be2c00e94689ee8062e4e7276, type: 3}
       propertyPath: m_IsActive
@@ -6105,6 +6121,10 @@ PrefabInstance:
     - target: {fileID: 6667782485684124090, guid: 3eaa9169de4f1664ab56db4b9e526b12, type: 3}
       propertyPath: m_Name
       value: Mirror
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667782485684124090, guid: 3eaa9169de4f1664ab56db4b9e526b12, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
