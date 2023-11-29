@@ -1,15 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Leap.Unity;
-using RootMotion.FinalIK;
-using Unity.Collections;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Animations;
-using UnityEngine.Playables;
-using UnityEngine.Serialization;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 

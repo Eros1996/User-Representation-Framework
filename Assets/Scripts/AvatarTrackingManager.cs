@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Leap.Unity;
 using RootMotion.Demos;
 using RootMotion.FinalIK;
 using UnityEngine;
@@ -31,7 +28,12 @@ public class AvatarTrackingManager : MonoBehaviour
     private OnButtonPress m_ButtonsInput;
     private RuntimeAnimatorController m_animatorController;
     private bool m_InitializationDone;
-    
+
+    private void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,8 +53,9 @@ public class AvatarTrackingManager : MonoBehaviour
     {
         m_VRIK = GetComponent<VRIK>() ?? gameObject.AddComponent<VRIK>();
         m_VRIK.solver.plantFeet = true;
-
+        
         m_calibrationController = GetComponent<VRIKCalibrationController>() ?? gameObject.AddComponent<VRIKCalibrationController>();
+        m_calibrationController.settings = new VRIKCalibrator.Settings();
         m_calibrationController.ik = m_VRIK;
         m_calibrationController.headTracker = m_XRHead;
         m_calibrationController.leftFootTracker = m_XRLF;
@@ -111,11 +114,11 @@ public class AvatarTrackingManager : MonoBehaviour
 
     private IEnumerator WaitXRMode(bool isFingersTrackingOn)
     {
-        while (XRInputModalityManager.currentInputMode.Value == XRInputModalityManager.InputMode.None ||
+        while ((XRInputModalityManager.currentInputMode.Value == XRInputModalityManager.InputMode.None) ||
                (XRInputModalityManager.currentInputMode.Value == XRInputModalityManager.InputMode.TrackedHand &&
-                m_WristLeft.position == new Vector3(-0.1f, 0, 0) && m_WristRight.position == new Vector3(0.1f, 0, 0)))
+                m_WristLeft.localPosition == new Vector3(-0.1f, 0, 0) && m_WristRight.localPosition == new Vector3(0.1f, 0, 0)))
         {
-            // Debug.Log("NONE");
+            Debug.Log("NONE");
             yield return null;
         }
         
@@ -127,7 +130,7 @@ public class AvatarTrackingManager : MonoBehaviour
                 SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Procedural, 1);
                 m_calibrationController.leftHandTracker = m_XRLH;
                 m_calibrationController.rightHandTracker = m_XRRH;
-                // Debug.Log("fingers on");
+                Debug.Log("fingers on");
                 break;
             case XRInputModalityManager.InputMode.MotionController:
                 EnableInput(true);
@@ -135,7 +138,7 @@ public class AvatarTrackingManager : MonoBehaviour
                 SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, 1);
                 m_calibrationController.leftHandTracker = m_XRLC;
                 m_calibrationController.rightHandTracker = m_XRRC;
-                // Debug.Log("controller on");
+                Debug.Log("controller on");
                 break;
         }
 
@@ -157,13 +160,13 @@ public class AvatarTrackingManager : MonoBehaviour
     
     private void SwitchToHandTracking()
     {
-        // Debug.Log("Calibrating hand tracking...");
+        Debug.Log("Calibrating hand tracking...");
         StartCoroutine(WaitXRMode(true));
     }
 
     private void SwitchToMotionController()
     {
-        // Debug.Log("Calibrating controller...");
+        Debug.Log("Calibrating controller...");
         StartCoroutine(WaitXRMode(false));
     }
 
@@ -182,7 +185,7 @@ public class AvatarTrackingManager : MonoBehaviour
     public void VRIKCalibration()
     {
         m_calibrationController.Calibrate();
-        // Debug.Log("CALIBRATED");
+        Debug.Log("CALIBRATED");
     }
 
     
