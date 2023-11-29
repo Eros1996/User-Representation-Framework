@@ -32,7 +32,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3aced3429e5911458f4da2dac9d0f29, type: 3}
   m_Name: MetaHandTrackingAim Standalone
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Meta Hand Tracking Aim
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.metahandtrackingaim
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 274c02963f889a64e90bc2e596e21d13, type: 3}
   m_Name: HTCViveControllerProfile Standalone
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: HTC Vive Controller Profile
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.htcvive
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85e93081a146d8f4bb9a6eaff95305b4, type: 3}
   m_Name: HTCViveTrackerProfile Standalone
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: HTC Vive Tracker Profile
   version: 0.0.1
   featureIdInternal: com.massive.openxr.feature.input.htcvivetracker
@@ -396,7 +396,6 @@ MonoBehaviour:
   - {fileID: 9163583811539546977}
   - {fileID: -1327894271447552407}
   - {fileID: -3763395204973703666}
-  - {fileID: 3745078139187047416}
   - {fileID: -200790745034005106}
   - {fileID: -2065362864102642983}
   - {fileID: -438459569444529838}
@@ -723,7 +722,6 @@ MonoBehaviour:
   - {fileID: 8808995001705441842}
   - {fileID: 356184369504617855}
   - {fileID: 2494836138734314933}
-  - {fileID: 5559292143852319975}
   - {fileID: -7471890998183404841}
   - {fileID: -8032263134001020698}
   - {fileID: -3203540266970066434}

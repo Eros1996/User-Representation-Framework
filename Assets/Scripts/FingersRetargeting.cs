@@ -37,11 +37,6 @@ public struct JointToHumanBodyBonesReference
 public class FingersRetargeting : MonoBehaviour
 {
     public bool isRightHand;
-    // public Vector3 proximalRotationOffset;
-    // public Vector3 intermediateRotationOffset;
-    // public Vector3 distalRotationOffset;
-    // public Vector3 thumbRotationOffset;
-    // public Vector3 metacarpalRotationOffset;
     public List<JointToHumanBodyBonesReference> jointToHumanBodyBones;
 
     private List<Transform> m_Fingers;
@@ -60,7 +55,10 @@ public class FingersRetargeting : MonoBehaviour
     private Vector3 m_DistalRotationOffset = new Vector3(90, 90, 90);
     private Vector3 m_ThumbRotationOffset = new Vector3();
     private Vector3 m_MetacarpalRotationOffset = new Vector3();
-    
+    private MetaAimHand m_MetaHand => isRightHand ? MetaAimHand.right : MetaAimHand.left;
+    private XRHand m_XrHand;
+
+
     private void Awake()
     {
         m_XRRig = GameObject.Find("XR Origin (XR Rig)");
@@ -98,6 +96,25 @@ public class FingersRetargeting : MonoBehaviour
         this.transform.localScale = Vector3.one * m_HandScale;
     }
     
+    public virtual bool IsGesturePinchIndex()
+    {
+        return m_MetaHand != null && m_MetaHand.indexPressed.isPressed;
+    }
+
+    public virtual bool IsGesturePinchMiddle()
+    {
+        return m_MetaHand != null && m_MetaHand.middlePressed.isPressed;
+    }
+    public virtual bool IsGesturePinchRing()
+    {
+        return m_MetaHand != null && m_MetaHand.ringPressed.isPressed;
+    }
+
+    public virtual bool IsGesturePinchLittle()
+    {
+        return m_MetaHand != null && m_MetaHand.littlePressed.isPressed;
+    }
+    
     private void LoadSubsystem()
     {
         if (m_HandSubsystem is not null) return;
@@ -117,9 +134,8 @@ public class FingersRetargeting : MonoBehaviour
 
         if (m_HandSubsystem != null)
         {
-            // Debug.Log("Update fingers");
+            m_XrHand = isRightHand ? m_HandSubsystem.rightHand : m_HandSubsystem.leftHand;
             m_HandSubsystem.updatedHands += OnUpdatedHands;
-            m_XRHandTrackingEvents.jointsUpdated.AddListener(UpdateJoints);
         }
     }
 
@@ -212,8 +228,8 @@ public class FingersRetargeting : MonoBehaviour
                 break;
             case XRHandSubsystem.UpdateType.BeforeRender:
                 // Update visual objects that use hand data
-                XRHand currXrHand = isRightHand ? subsystem.rightHand : subsystem.leftHand;
-                UpdateFingers(currXrHand);
+                //  XRHand currXrHand = isRightHand ? subsystem.rightHand : subsystem.leftHand;
+                UpdateFingers(m_XrHand);
                 break;
         }
     }

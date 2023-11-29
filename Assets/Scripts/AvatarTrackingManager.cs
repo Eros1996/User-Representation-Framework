@@ -28,12 +28,7 @@ public class AvatarTrackingManager : MonoBehaviour
     private OnButtonPress m_ButtonsInput;
     private RuntimeAnimatorController m_animatorController;
     private bool m_InitializationDone;
-
-    private void Awake()
-    {
-        
-    }
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -58,9 +53,9 @@ public class AvatarTrackingManager : MonoBehaviour
         m_calibrationController.settings = new VRIKCalibrator.Settings();
         m_calibrationController.ik = m_VRIK;
         m_calibrationController.headTracker = m_XRHead;
-        m_calibrationController.leftFootTracker = m_XRLF;
-        m_calibrationController.rightFootTracker = m_XRRF;
-        m_calibrationController.bodyTracker = m_XRP;
+        // m_calibrationController.leftFootTracker = m_XRLF;
+        // m_calibrationController.rightFootTracker = m_XRRF;
+        // m_calibrationController.bodyTracker = m_XRP;
     }
     
     private void FindXRComponents()
@@ -81,16 +76,15 @@ public class AvatarTrackingManager : MonoBehaviour
         m_XRLH = m_WristLeft.Find("Left Arm IK_target");
         m_WristRight = m_XRRightHandSkeletonDriver.jointTransformReferences[XRHandJointID.BeginMarker.ToIndex()].jointTransform;
         m_XRRH = m_WristRight.Find("Right Arm IK_target");
-        
-        var leftFoot = GameObject.Find("Left Foot IK_target");
-        m_XRLF = leftFoot is null || leftFoot.transform.localPosition == Vector3.zero ? null : leftFoot.transform.transform;
-        var rightFoot = GameObject.Find("Right Foot IK_target");
-        m_XRRF = rightFoot is null || rightFoot.transform.localPosition == Vector3.zero ? null : rightFoot.transform;
-        var pelvis = GameObject.Find("Pelvis IK_target");
-        m_XRP = pelvis is null || pelvis.transform.localPosition == Vector3.zero ? null : pelvis.transform;
+        m_XRLF = GameObject.Find("Left Foot IK_target")?.transform;
+        m_XRRF = GameObject.Find("Right Foot IK_target")?.transform;
+        m_XRP = GameObject.Find("Pelvis IK_target")?.transform;
         
         m_ButtonsInput = m_XRParent.GetComponent<OnButtonPress>() ?? m_XRParent.AddComponent<OnButtonPress>();
         m_ButtonsInput.action.AddBinding("<XRController>{LeftHand}/secondaryButton");
+        m_ButtonsInput.action.AddCompositeBinding("ButtonWithOneModifier")
+            .With("Button", "<MetaAimHand>{RightHand}/middlePressed")
+            .With("Modifier", "<MetaAimHand>{LeftHand}/middlePressed");
         m_ButtonsInput.OnPress.AddListener(VRIKCalibration);
     }
 
@@ -125,7 +119,7 @@ public class AvatarTrackingManager : MonoBehaviour
         switch (XRInputModalityManager.currentInputMode.Value)
         {
             case XRInputModalityManager.InputMode.TrackedHand:
-                EnableInput(false);
+                EnableAnimation(false);
                 m_Animator.runtimeAnimatorController = null;
                 SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Procedural, 1);
                 m_calibrationController.leftHandTracker = m_XRLH;
@@ -133,7 +127,7 @@ public class AvatarTrackingManager : MonoBehaviour
                 Debug.Log("fingers on");
                 break;
             case XRInputModalityManager.InputMode.MotionController:
-                EnableInput(true);
+                EnableAnimation(true);
                 m_Animator.runtimeAnimatorController = m_animatorController;
                 SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, 1);
                 m_calibrationController.leftHandTracker = m_XRLC;
@@ -142,6 +136,10 @@ public class AvatarTrackingManager : MonoBehaviour
                 break;
         }
 
+        m_calibrationController.leftFootTracker = m_XRLF.localPosition == Vector3.zero ? null : m_XRLF;
+        m_calibrationController.rightFootTracker = m_XRRF.localPosition == Vector3.zero ? null : m_XRLF;
+        m_calibrationController.bodyTracker = m_XRP.localPosition == Vector3.zero ? null : m_XRP;
+        
         VRIKCalibration();
         EnableFingerRetargeting(isFingersTrackingOn);
     }
@@ -152,9 +150,8 @@ public class AvatarTrackingManager : MonoBehaviour
         m_FingersRetargetingR.enabled = enable;
     }
 
-    private void EnableInput(bool enable)
+    private void EnableAnimation(bool enable)
     {
-        m_ButtonsInput.enabled = enable;
         m_AnimationInput.enabled = enable;
     }
     
