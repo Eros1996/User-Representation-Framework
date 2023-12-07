@@ -3,6 +3,7 @@ using RootMotion.Demos;
 using RootMotion.FinalIK;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
@@ -104,7 +105,7 @@ public class AvatarTrackingManager : MonoBehaviour
         m_ButtonsInput = m_XRParent.GetComponent<OnButtonPress>() ?? m_XRParent.AddComponent<OnButtonPress>();
         m_ButtonsInput.action.AddBinding("<XRController>{LeftHand}/triggerPressed");
         m_ButtonsInput.action.AddBinding("<MetaAimHand>{LeftHand}/indexPressed"); // Remove when Leap Motion implement also other actions
-
+        
         // m_ButtonsInput.action.AddCompositeBinding("ButtonWithOneModifier")
         //     .With("Button", "<MetaAimHand>{RightHand}/ringPressed")
         //     .With("Modifier", "<MetaAimHand>{LeftHand}/ringPressed");
