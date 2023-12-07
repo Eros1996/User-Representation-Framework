@@ -85,18 +85,21 @@ public class FingersRetargeting : MonoBehaviour
 
     private void SetHandScale(XRHand hand)
     {
+        this.transform.localScale = Vector3.one;
+        
+        Debug.Log("SCALING" + hand.handedness);
         var avtWrist = this.transform;
         var fingerWristData = hand.GetJoint(XRHandJointID.Wrist);
         fingerWristData.TryGetPose(out var xrWristJointPose);
         
-        var fingerMiddleDistalData = hand.GetJoint(XRHandJointID.MiddleDistal);
-        fingerMiddleDistalData.TryGetPose(out var xrMiddleDistalJointPose); 
+        var fingerMiddleData = hand.GetJoint(XRHandJointID.MiddleDistal);
+        fingerMiddleData.TryGetPose(out var xrMiddleJointPose); 
         var avtMiddleDistalTransform = isRightHand ? m_Animator.GetBoneTransform(HumanBodyBones.RightMiddleDistal) : m_Animator.GetBoneTransform(HumanBodyBones.LeftMiddleDistal);;
-
-        var avtScale = Vector3.Distance(avtWrist.position, avtMiddleDistalTransform.position);
-        var xrScale = Vector3.Distance(xrWristJointPose.position, xrMiddleDistalJointPose.position);
-        m_HandScale = xrScale / avtScale;
         
+        var avtScale = avtWrist.position.y - avtMiddleDistalTransform.position.y;
+        var xrScale = xrWristJointPose.position.y - xrMiddleJointPose.position.y;
+        
+        m_HandScale = xrScale / avtScale;
         this.transform.localScale = Vector3.one * m_HandScale;
     }
     
@@ -248,7 +251,7 @@ public class FingersRetargeting : MonoBehaviour
                 {
                     var xrSkeletonJointTransform = jointToTransform.jointTransform;
 
-                    avtFingerTransform.rotation = RootMotion.QuaTools.MatchRotation(xrSkeletonJointTransform.rotation,
+                    avtFingerTransform.localRotation = RootMotion.QuaTools.MatchRotation(xrSkeletonJointTransform.rotation,
                         xrSkeletonJointTransform.forward, xrSkeletonJointTransform.right, avtFingerTransform.position - avtFingerTransformP.position,
                         avtWristFinger.right);
                 }
@@ -295,8 +298,11 @@ public class FingersRetargeting : MonoBehaviour
                         case XRHandJointID.ThumbMetacarpal:
                             avtFingerTransform.rotation = xrSkeletonJointTransform.rotation * Quaternion.Euler(m_MetacarpalRotationOffset);
                             break;
-                        default:
+                        case XRHandJointID.ThumbProximal or XRHandJointID.ThumbDistal:
                             avtFingerTransform.rotation = xrSkeletonJointTransform.rotation * Quaternion.Euler(m_ThumbRotationOffset);
+                            break;
+                        default:
+                            avtFingerTransform.rotation = xrSkeletonJointTransform.rotation;
                             break;
                     }
                 }
