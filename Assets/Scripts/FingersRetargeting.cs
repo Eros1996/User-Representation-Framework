@@ -282,7 +282,7 @@ public class FingersRetargeting : MonoBehaviour
                 if (jointToTransform.xrHandJointID == xrFinger)
                 {
                     var xrSkeletonJointTransform = jointToTransform.jointTransform;
-                    //avtFingerTransform.position = xrSkeletonJointTransform.position;
+                    avtFingerTransform.position = xrSkeletonJointTransform.position;
 
                     switch (xrFinger)
                     {

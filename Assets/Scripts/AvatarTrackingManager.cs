@@ -158,8 +158,8 @@ public class AvatarTrackingManager : MonoBehaviour
                 Debug.Log("fingers on");
                 break;
             case XRInputModalityManager.InputMode.MotionController:
-                EnableAnimation(true);
                 m_Animator.runtimeAnimatorController = m_AnimatorController;
+                EnableAnimation(true);
                 SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, 1);
                 m_calibrationController.leftHandTracker = m_XRLC;
                 m_calibrationController.rightHandTracker = m_XRRC;

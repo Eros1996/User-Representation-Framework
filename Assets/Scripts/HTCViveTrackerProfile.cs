@@ -118,7 +118,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
             /// </summary>
             public const string keyboard = "/user/vive_tracker_htcx/role/keyboard";
         }
- 
+        
         /// <summary>
         /// OpenXR component path definitions for the tracker.
         /// </summary>

@@ -21,10 +21,16 @@ public class AnimateOnInput : MonoBehaviour
     private void Awake()
     {
         m_Animator = this.GetComponent<Animator>();
-        m_Animator.writeDefaultValuesOnDisable = true;
+        Debug.Log("AWAKE");
     }
-    
-    private void LateUpdate()
+
+    private void Start()
+    {
+        m_Animator.writeDefaultValuesOnDisable = true;
+        Debug.Log("START");
+    }
+
+    private void Update()
     {
         foreach (var item in animationInputs)
         {
