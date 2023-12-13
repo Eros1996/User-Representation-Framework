@@ -175,8 +175,8 @@ public class AvatarTrackingManager : MonoBehaviour
         m_FingersRetargetingL.enabled = enable;
         m_FingersRetargetingR.enabled = enable;
         
-        m_FingersRetargetingL.IsScaleFix(!enable);
-        m_FingersRetargetingR.IsScaleFix(!enable);
+        //m_FingersRetargetingL.IsScaleFix(!enable);
+        //m_FingersRetargetingR.IsScaleFix(!enable);
     }
 
     private void EnableAnimation(bool enable)

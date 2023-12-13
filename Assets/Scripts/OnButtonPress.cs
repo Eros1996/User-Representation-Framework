@@ -50,4 +50,24 @@ public class OnButtonPress : MonoBehaviour
     {
         OnRelease.Invoke();
     }
+
+    public void index()
+    {
+        Debug.Log("index");
+    }
+    
+    public void middle()
+    {
+        Debug.Log("middle");
+    }
+    
+    public void ring()
+    {
+        Debug.Log("ring");
+    }
+    
+    public void little()
+    {
+        Debug.Log("little");
+    }
 }

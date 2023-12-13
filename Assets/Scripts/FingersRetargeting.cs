@@ -87,25 +87,26 @@ public class FingersRetargeting : MonoBehaviour
     {
         this.transform.localScale = Vector3.one;
         
-        Debug.Log("SCALING" + hand.handedness);
         var avtWrist = this.transform;
         var fingerWristData = hand.GetJoint(XRHandJointID.Wrist);
-        fingerWristData.TryGetPose(out var xrWristJointPose);
+        if (!fingerWristData.TryGetPose(out var xrWristJointPose)) return;
         
         var fingerMiddleData = hand.GetJoint(XRHandJointID.MiddleDistal);
-        fingerMiddleData.TryGetPose(out var xrMiddleJointPose); 
+        if(!fingerMiddleData.TryGetPose(out var xrMiddleJointPose)) return; 
         var avtMiddleDistalTransform = isRightHand ? m_Animator.GetBoneTransform(HumanBodyBones.RightMiddleDistal) : m_Animator.GetBoneTransform(HumanBodyBones.LeftMiddleDistal);;
+        if (avtMiddleDistalTransform is null) return;
         
         var avtScale = avtWrist.position.y - avtMiddleDistalTransform.position.y;
         var xrScale = xrWristJointPose.position.y - xrMiddleJointPose.position.y;
         
         m_HandScale = xrScale / avtScale;
         this.transform.localScale = Vector3.one * m_HandScale;
+        Debug.Log("SCALING " + hand.handedness);
     }
     
     private void LoadSubsystem()
     {
-        if (m_HandSubsystem is not null) return;
+        //if (m_HandSubsystem is not null) return;
         
         var handSubsystems = new List<XRHandSubsystem>();
         SubsystemManager.GetSubsystems(handSubsystems);
@@ -267,6 +268,7 @@ public class FingersRetargeting : MonoBehaviour
             m_ThumbRotationOffset = isRightHand ? new Vector3(180, 90, 90) : new Vector3(0, 90, 90);
             m_MetacarpalRotationOffset = isRightHand ? new Vector3(180, 90, 90) : new Vector3(0, 90, 90);
             m_IsScaleFix = true;
+            return;
         }
 
         for (var i = XRHandJointID.ThumbMetacarpal.ToIndex(); i < XRHandJointID.EndMarker.ToIndex(); i++)
