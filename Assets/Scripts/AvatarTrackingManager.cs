@@ -1,4 +1,5 @@
 using System.Collections;
+using Leap.Unity;
 using RootMotion.Demos;
 using RootMotion.FinalIK;
 using UnityEngine;
@@ -14,7 +15,7 @@ public enum HMD
 }
 
 public class AvatarTrackingManager : MonoBehaviour
-{
+{ 
     public HMD hmdType;
     
     private XRInputModalityManager m_InputModalityManager;
@@ -69,7 +70,7 @@ public class AvatarTrackingManager : MonoBehaviour
     {
         m_VRIK = GetComponent<VRIK>() ?? gameObject.AddComponent<VRIK>();
         m_VRIK.solver.plantFeet = true;
-        
+         
         m_calibrationController = GetComponent<VRIKCalibrationController>() ?? gameObject.AddComponent<VRIKCalibrationController>();
         m_calibrationController.settings = new VRIKCalibrator.Settings();
         m_calibrationController.ik = m_VRIK;
@@ -172,11 +173,15 @@ public class AvatarTrackingManager : MonoBehaviour
     
     private void EnableFingerRetargeting(bool enable)
     {
+        if (m_FingersRetargetingL.enabled == enable && m_FingersRetargetingR.enabled == enable)
+        {
+            m_FingersRetargetingL.IsScaleFix(!enable);
+            m_FingersRetargetingR.IsScaleFix(!enable);
+            return;
+        }
+        
         m_FingersRetargetingL.enabled = enable;
         m_FingersRetargetingR.enabled = enable;
-        
-        m_FingersRetargetingL.IsScaleFix(!enable);
-        m_FingersRetargetingR.IsScaleFix(!enable);
     }
 
     private void EnableAnimation(bool enable)
@@ -220,7 +225,7 @@ public class AvatarTrackingManager : MonoBehaviour
             m_calibrationController.rightFootTracker);
     }
     
-    public void VRIKCalibration()
+    private void VRIKCalibration()
     {
         StartCoroutine(WaitXRMode());
         Debug.Log("CALIBRATED");

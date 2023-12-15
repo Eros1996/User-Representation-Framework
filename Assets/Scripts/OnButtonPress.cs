@@ -38,7 +38,7 @@ public class OnButtonPress : MonoBehaviour
     {
         action.started -= Pressed;
         action.canceled -= Released;
-        action.Disable();
+        //action.Disable();
     }
 
     private void Pressed(InputAction.CallbackContext context)

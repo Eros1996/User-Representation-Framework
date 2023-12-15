@@ -74,6 +74,7 @@ public class FingersRetargeting : MonoBehaviour
     
     private void OnEnable()
     {
+        this.transform.localScale = Vector3.one;
         m_IsScaleFix = false;
         LoadSubsystem();
     }
@@ -81,50 +82,46 @@ public class FingersRetargeting : MonoBehaviour
     private void OnDisable()
     {
         this.transform.localScale = Vector3.one;
+        m_HandSubsystem = null;
     }
 
     private void SetHandScale(XRHand hand)
     {
         this.transform.localScale = Vector3.one;
         
-        Debug.Log("SCALING" + hand.handedness);
         var avtWrist = this.transform;
         var fingerWristData = hand.GetJoint(XRHandJointID.Wrist);
-        fingerWristData.TryGetPose(out var xrWristJointPose);
+        if (!fingerWristData.TryGetPose(out var xrWristJointPose)) return;
         
         var fingerMiddleData = hand.GetJoint(XRHandJointID.MiddleDistal);
-        fingerMiddleData.TryGetPose(out var xrMiddleJointPose); 
+        if(!fingerMiddleData.TryGetPose(out var xrMiddleJointPose)) return; 
         var avtMiddleDistalTransform = isRightHand ? m_Animator.GetBoneTransform(HumanBodyBones.RightMiddleDistal) : m_Animator.GetBoneTransform(HumanBodyBones.LeftMiddleDistal);;
+        if (avtMiddleDistalTransform is null) return;
         
-        var avtScale = avtWrist.position.y - avtMiddleDistalTransform.position.y;
-        var xrScale = xrWristJointPose.position.y - xrMiddleJointPose.position.y;
+        var avtScale = Vector3.Distance(avtWrist.position, avtMiddleDistalTransform.position);
+        var xrScale = Vector3.Distance(xrWristJointPose.position, xrMiddleJointPose.position);
         
         m_HandScale = xrScale / avtScale;
         this.transform.localScale = Vector3.one * m_HandScale;
+        
+        Debug.Log("SCALING " + hand.handedness);
     }
     
     private void LoadSubsystem()
     {
-        if (m_HandSubsystem is not null) return;
-        
         var handSubsystems = new List<XRHandSubsystem>();
         SubsystemManager.GetSubsystems(handSubsystems);
 
-        for (var i = 0; i < handSubsystems.Count; ++i)
+        foreach (var handSubsystem in handSubsystems)
         {
-            var handSubsystem = handSubsystems[i];
-            if (handSubsystem.running)
-            {
-                m_HandSubsystem = handSubsystem;
-                break;
-            }
+            if (!handSubsystem.running) continue;
+            m_HandSubsystem = handSubsystem;
+            break;
         }
 
-        if (m_HandSubsystem != null)
-        {
-            m_XrHand = isRightHand ? m_HandSubsystem.rightHand : m_HandSubsystem.leftHand;
-            m_HandSubsystem.updatedHands += OnUpdatedHands;
-        }
+        if (m_HandSubsystem == null) return;
+        m_XrHand = isRightHand ? m_HandSubsystem.rightHand : m_HandSubsystem.leftHand;
+        m_HandSubsystem.updatedHands += OnUpdatedHands;
     }
 
     [ContextMenu("HumanTraitBoneName")]
@@ -217,48 +214,10 @@ public class FingersRetargeting : MonoBehaviour
             case XRHandSubsystem.UpdateType.BeforeRender:
                 // Update visual objects that use hand data
                 UpdateSkeletonFingers(m_XrHand);
-                //UpdateFingersTransform(m_XrHand);
                 break;
         }
     }
-
-    void UpdateFingersTransform(XRHand hand)
-    {
-        if (!m_IsScaleFix)
-        {
-            SetHandScale(hand);
-            m_ThumbRotationOffset = isRightHand ? new Vector3(180, 90, 90) : new Vector3(0, 90, 90);
-            m_MetacarpalRotationOffset = isRightHand ? new Vector3(180, 90, 90) : new Vector3(0, 90, 90);
-            m_IsScaleFix = true;
-        }
-        
-        Transform avtWristFinger = m_Animator.GetBoneTransform(jointToHumanBodyBones[0].humanBodyBoneTransform);
-        for (var i = XRHandJointID.ThumbMetacarpal.ToIndex(); i < XRHandJointID.EndMarker.ToIndex(); i++)
-        {
-            var fingerHumanBodyBones = jointToHumanBodyBones[i].humanBodyBoneTransform;
-            if (fingerHumanBodyBones == HumanBodyBones.LastBone)
-                continue;
-            var avtFingerTransform = m_Animator.GetBoneTransform(fingerHumanBodyBones);
-            
-            var fingerHumanBodyBonesP = jointToHumanBodyBones[i-1].humanBodyBoneTransform;
-            var avtFingerTransformP = fingerHumanBodyBonesP == HumanBodyBones.LastBone ? avtWristFinger : m_Animator.GetBoneTransform(fingerHumanBodyBonesP);
-            
-            var xrFinger = jointToHumanBodyBones[i].xrHandJointID;
-
-            foreach (var jointToTransform in m_JointTransformReferences)
-            {
-                if (jointToTransform.xrHandJointID == xrFinger)
-                {
-                    var xrSkeletonJointTransform = jointToTransform.jointTransform;
-
-                    avtFingerTransform.localRotation = RootMotion.QuaTools.MatchRotation(xrSkeletonJointTransform.rotation,
-                        xrSkeletonJointTransform.forward, xrSkeletonJointTransform.right, avtFingerTransform.position - avtFingerTransformP.position,
-                        avtWristFinger.right);
-                }
-            }
-        }
-    }
-
+    
     void UpdateSkeletonFingers(XRHand hand)
     {
         if (!m_IsScaleFix)
@@ -282,7 +241,7 @@ public class FingersRetargeting : MonoBehaviour
                 if (jointToTransform.xrHandJointID == xrFinger)
                 {
                     var xrSkeletonJointTransform = jointToTransform.jointTransform;
-                    avtFingerTransform.position = xrSkeletonJointTransform.position;
+                    //avtFingerTransform.position = xrSkeletonJointTransform.position;
 
                     switch (xrFinger)
                     {
