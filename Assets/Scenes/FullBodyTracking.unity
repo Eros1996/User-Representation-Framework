@@ -6294,7 +6294,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 1
 --- !u!4 &835576964
 Transform:
   m_ObjectHideFlags: 0
@@ -6305,7 +6305,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.48, y: 0.48, z: 0.48}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 622225904}
@@ -12059,7 +12059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1702048004
 Animator:
   serializedVersion: 5
@@ -12080,7 +12080,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 1
 --- !u!4 &1702048005
 Transform:
   m_ObjectHideFlags: 0
@@ -12111,7 +12111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f4c6f86be00a4c4b976bc7e40145393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hmdType: 1
+  hmdType: 0
 --- !u!114 &1702048007
 MonoBehaviour:
   m_ObjectHideFlags: 0

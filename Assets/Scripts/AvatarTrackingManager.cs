@@ -150,7 +150,6 @@ public class AvatarTrackingManager : MonoBehaviour
         {
             case XRInputModalityManager.InputMode.TrackedHand:
                 EnableAnimation(false);
-                m_Animator.runtimeAnimatorController = null;
                 SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Procedural, 1);
                 m_calibrationController.leftHandTracker = m_XRLH;
                 m_calibrationController.rightHandTracker = m_XRRH;
@@ -159,7 +158,6 @@ public class AvatarTrackingManager : MonoBehaviour
                 Debug.Log("fingers on");
                 break;
             case XRInputModalityManager.InputMode.MotionController:
-                m_Animator.runtimeAnimatorController = m_AnimatorController;
                 EnableAnimation(true);
                 SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, 1);
                 m_calibrationController.leftHandTracker = m_XRLC;
@@ -186,6 +184,10 @@ public class AvatarTrackingManager : MonoBehaviour
 
     private void EnableAnimation(bool enable)
     {
+        //m_Animator.runtimeAnimatorController = enable ? m_AnimatorController : null;
+        //m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), enable?1:0);
+        //m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), enable?1:0);
+        m_Animator.enabled = enable;
         m_AnimationInput.enabled = enable;
     }
     
