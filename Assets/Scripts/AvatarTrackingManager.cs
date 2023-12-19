@@ -1,10 +1,8 @@
 using System.Collections;
-using Leap.Unity;
 using RootMotion.Demos;
 using RootMotion.FinalIK;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
@@ -35,7 +33,6 @@ public class AvatarTrackingManager : MonoBehaviour
     private FingersRetargeting m_FingersRetargetingR;
     private AnimateOnInput m_AnimationInput;
     private OnButtonPress m_ButtonsInput;
-    private RuntimeAnimatorController m_AnimatorController;
     private bool m_InitializationDone;
     
     // Start is called before the first frame update
@@ -116,7 +113,6 @@ public class AvatarTrackingManager : MonoBehaviour
     private void FindAvatarComponents()
     {
         m_Animator = GetComponent<Animator>() ?? gameObject.AddComponent<Animator>();
-        m_AnimatorController = m_Animator.runtimeAnimatorController;
         
         m_AnimationInput = GetComponent<AnimateOnInput>() ?? gameObject.AddComponent<AnimateOnInput>();
         
@@ -138,7 +134,7 @@ public class AvatarTrackingManager : MonoBehaviour
                (XRInputModalityManager.currentInputMode.Value == XRInputModalityManager.InputMode.TrackedHand &&
                 m_WristLeft.localPosition == new Vector3(-0.1f, 0, 0) && m_WristRight.localPosition == new Vector3(0.1f, 0, 0)))
         {
-            Debug.Log("NONE");
+            // Debug.Log("NONE");
             yield return null;
         }
         
@@ -155,7 +151,7 @@ public class AvatarTrackingManager : MonoBehaviour
                 m_calibrationController.rightHandTracker = m_XRRH;
                 CalibrationData();
                 EnableFingerRetargeting(true);
-                Debug.Log("fingers on");
+                // Debug.Log("fingers on");
                 break;
             case XRInputModalityManager.InputMode.MotionController:
                 EnableAnimation(true);
@@ -164,7 +160,7 @@ public class AvatarTrackingManager : MonoBehaviour
                 m_calibrationController.rightHandTracker = m_XRRC;
                 CalibrationData();
                 EnableFingerRetargeting(false);
-                Debug.Log("controller on");
+                // Debug.Log("controller on");
                 break;
         }
     }
@@ -184,22 +180,19 @@ public class AvatarTrackingManager : MonoBehaviour
 
     private void EnableAnimation(bool enable)
     {
-        //m_Animator.runtimeAnimatorController = enable ? m_AnimatorController : null;
-        //m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), enable?1:0);
-        //m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), enable?1:0);
         m_Animator.enabled = enable;
         m_AnimationInput.enabled = enable;
     }
     
     private void SwitchToHandTracking()
     {
-        Debug.Log("Calibrating hand tracking...");
+        // Debug.Log("Calibrating hand tracking...");
         StartCoroutine(WaitXRMode());
     }
 
     private void SwitchToMotionController()
     {
-        Debug.Log("Calibrating controller...");
+        // Debug.Log("Calibrating controller...");
         StartCoroutine(WaitXRMode());
     }
 
@@ -230,6 +223,6 @@ public class AvatarTrackingManager : MonoBehaviour
     private void VRIKCalibration()
     {
         StartCoroutine(WaitXRMode());
-        Debug.Log("CALIBRATED");
+        // Debug.Log("CALIBRATED");
     }
 }

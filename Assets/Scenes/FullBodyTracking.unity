@@ -6200,7 +6200,6 @@ GameObject:
   m_Component:
   - component: {fileID: 835576964}
   - component: {fileID: 835576963}
-  - component: {fileID: 835576961}
   - component: {fileID: 835576965}
   m_Layer: 0
   m_Name: Remy
@@ -6209,71 +6208,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &835576961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 835576960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca683de014d0afd4eba985fdb0fdc680, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animationInputs:
-  - animationPropertyName: VRIK_GripL
-    action:
-      m_UseReference: 1
-      m_Action:
-        m_Name: Action
-        m_Type: 0
-        m_ExpectedControlType: 
-        m_Id: 22c88722-3499-4f8e-afca-e61776b009b1
-        m_Processors: 
-        m_Interactions: 
-        m_SingletonActionBindings: []
-        m_Flags: 0
-      m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - animationPropertyName: VRIK_TriggerL
-    action:
-      m_UseReference: 1
-      m_Action:
-        m_Name: Action
-        m_Type: 0
-        m_ExpectedControlType: 
-        m_Id: e63cb91b-0d0c-4969-bee5-0b03de94b865
-        m_Processors: 
-        m_Interactions: 
-        m_SingletonActionBindings: []
-        m_Flags: 0
-      m_Reference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - animationPropertyName: VRIK_GripR
-    action:
-      m_UseReference: 1
-      m_Action:
-        m_Name: Action
-        m_Type: 0
-        m_ExpectedControlType: 
-        m_Id: 84fa103d-6cce-4a48-a497-63a675c8b767
-        m_Processors: 
-        m_Interactions: 
-        m_SingletonActionBindings: []
-        m_Flags: 0
-      m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - animationPropertyName: VRIK_TriggerR
-    action:
-      m_UseReference: 1
-      m_Action:
-        m_Name: Action
-        m_Type: 0
-        m_ExpectedControlType: 
-        m_Id: 300d789b-9bb6-41b3-8e11-c4de402a1153
-        m_Processors: 
-        m_Interactions: 
-        m_SingletonActionBindings: []
-        m_Flags: 0
-      m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!95 &835576963
 Animator:
   serializedVersion: 5
@@ -12124,59 +12058,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca683de014d0afd4eba985fdb0fdc680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationInputs:
-  - animationPropertyName: VRIK_TriggerL
-    action:
-      m_UseReference: 1
-      m_Action:
-        m_Name: Action
-        m_Type: 0
-        m_ExpectedControlType: 
-        m_Id: e63cb91b-0d0c-4969-bee5-0b03de94b865
-        m_Processors: 
-        m_Interactions: 
-        m_SingletonActionBindings: []
-        m_Flags: 0
-      m_Reference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - animationPropertyName: VRIK_GripR
-    action:
-      m_UseReference: 1
-      m_Action:
-        m_Name: Action
-        m_Type: 0
-        m_ExpectedControlType: 
-        m_Id: 84fa103d-6cce-4a48-a497-63a675c8b767
-        m_Processors: 
-        m_Interactions: 
-        m_SingletonActionBindings: []
-        m_Flags: 0
-      m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - animationPropertyName: VRIK_TriggerR
-    action:
-      m_UseReference: 1
-      m_Action:
-        m_Name: Action
-        m_Type: 0
-        m_ExpectedControlType: 
-        m_Id: 300d789b-9bb6-41b3-8e11-c4de402a1153
-        m_Processors: 
-        m_Interactions: 
-        m_SingletonActionBindings: []
-        m_Flags: 0
-      m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  - animationPropertyName: VRIK_GripL
-    action:
-      m_UseReference: 1
-      m_Action:
-        m_Name: Action
-        m_Type: 0
-        m_ExpectedControlType: 
-        m_Id: 22c88722-3499-4f8e-afca-e61776b009b1
-        m_Processors: 
-        m_Interactions: 
-        m_SingletonActionBindings: []
-        m_Flags: 0
-      m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &1707653327
 GameObject:
   m_ObjectHideFlags: 0

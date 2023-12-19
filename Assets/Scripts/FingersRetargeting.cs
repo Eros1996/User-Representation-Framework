@@ -70,19 +70,25 @@ public class FingersRetargeting : MonoBehaviour
         m_XRHandSkeletonDriver = isRightHand ? m_InputModalityManager.rightHand.GetComponentInChildren<XRHandSkeletonDriver>() : m_InputModalityManager.leftHand.GetComponentInChildren<XRHandSkeletonDriver>();
         m_JointTransformReferences = m_XRHandSkeletonDriver.jointTransformReferences;
         m_Animator = GetComponentInParent<Animator>();
+        
+        LoadSubsystem();
     }
     
     private void OnEnable()
     {
+        if (m_HandSubsystem is null) return;
+        
         this.transform.localScale = Vector3.one;
         m_IsScaleFix = false;
-        LoadSubsystem();
+        m_HandSubsystem.updatedHands += OnUpdatedHands;
     }
 
     private void OnDisable()
     {
+        if (m_HandSubsystem is null) return;
+        
         this.transform.localScale = Vector3.one;
-        m_HandSubsystem = null;
+        m_HandSubsystem.updatedHands -= OnUpdatedHands;
     }
 
     private void SetHandScale(XRHand hand)
@@ -103,8 +109,6 @@ public class FingersRetargeting : MonoBehaviour
         
         m_HandScale = xrScale / avtScale;
         this.transform.localScale = Vector3.one * m_HandScale;
-        
-        Debug.Log("SCALING " + hand.handedness);
     }
     
     private void LoadSubsystem()
@@ -121,6 +125,8 @@ public class FingersRetargeting : MonoBehaviour
 
         if (m_HandSubsystem == null) return;
         m_XrHand = isRightHand ? m_HandSubsystem.rightHand : m_HandSubsystem.leftHand;
+        m_ThumbRotationOffset = isRightHand ? new Vector3(180, 90, 90) : new Vector3(0, 90, 90);
+        m_MetacarpalRotationOffset = isRightHand ? new Vector3(180, 90, 90) : new Vector3(0, 90, 90);
         m_HandSubsystem.updatedHands += OnUpdatedHands;
     }
 
@@ -223,8 +229,6 @@ public class FingersRetargeting : MonoBehaviour
         if (!m_IsScaleFix)
         {
             SetHandScale(hand);
-            m_ThumbRotationOffset = isRightHand ? new Vector3(180, 90, 90) : new Vector3(0, 90, 90);
-            m_MetacarpalRotationOffset = isRightHand ? new Vector3(180, 90, 90) : new Vector3(0, 90, 90);
             m_IsScaleFix = true;
         }
 
