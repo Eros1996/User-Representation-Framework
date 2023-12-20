@@ -69,7 +69,6 @@ public class AvatarTrackingManager : MonoBehaviour
         m_VRIK.solver.plantFeet = true;
          
         m_calibrationController = GetComponent<VRIKCalibrationController>() ?? gameObject.AddComponent<VRIKCalibrationController>();
-        m_calibrationController.settings = new VRIKCalibrator.Settings();
         m_calibrationController.ik = m_VRIK;
         m_calibrationController.headTracker = m_XRHead;
     }
@@ -84,10 +83,8 @@ public class AvatarTrackingManager : MonoBehaviour
         m_InputModalityManager = m_XRRig.GetComponent<XRInputModalityManager>();
         m_XRLeftHandSkeletonDriver = m_InputModalityManager.leftHand.GetComponentInChildren<XRHandSkeletonDriver>();
         m_XRRightHandSkeletonDriver = m_InputModalityManager.rightHand.GetComponentInChildren<XRHandSkeletonDriver>();
-        m_ButtonsInput = m_XRParent.GetComponent<OnButtonPress>();
         
         m_XRHead = m_XRCam.transform.Find("Head IK_target");
-        
         m_XRLC = m_InputModalityManager.leftController.transform.Find("Left Arm IK_target");
         m_XRRC = m_InputModalityManager.rightController.transform.Find("Right Arm IK_target");
         
