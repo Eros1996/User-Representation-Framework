@@ -2,6 +2,10 @@
 
 The Avatar Tracking System is a Unity-based solution designed to enhance avatar tracking and motion control within virtual reality environments. This system seamlessly integrates hand tracking and motion controller input, providing a framework for a more immersive user experience.
 
+
+https://github.com/Eros1996/User-Representation-Framework/assets/34738198/83f36df2-4a14-4101-aa1e-49453daed9ba
+
+
 ## Overview
 
 The Avatar Tracking System is built to offer a flexible and extensible solution for incorporating diverse input modalities into virtual reality applications. It facilitates dynamic switching between hand tracking and motion controllers (with Quest 2), real-time avatar calibration, finger retargeting, and animation control based on user input.
