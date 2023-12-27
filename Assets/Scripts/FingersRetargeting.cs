@@ -12,21 +12,15 @@ public struct JointToHumanBodyBonesReference
     XRHandJointID m_XRHandJointID;
     
     [SerializeField]
-    [Tooltip("The Transform that will be driven by the specified XR Joint.")]
+    [Tooltip("The HumanBodyBones that will be driven by the specified XR Joint.")]
     HumanBodyBones m_HumanBodyBoneTransform;
-
-    /// <summary>
-    /// The <see cref="XRHandJointID"/> that will drive the Transform.
-    /// </summary>
+    
     public XRHandJointID xrHandJointID
     {
         get => m_XRHandJointID;
         set => m_XRHandJointID = value;
     }
-
-    /// <summary>
-    /// The Transform that will be driven by the specified joint's tracking data.
-    /// </summary>
+    
     public HumanBodyBones humanBodyBoneTransform
     {
         get => m_HumanBodyBoneTransform;
@@ -37,6 +31,11 @@ public struct JointToHumanBodyBonesReference
 public class FingersRetargeting : MonoBehaviour
 {
     public bool isRightHand;
+    public Vector3 proximalRotationOffset = new Vector3(90, 90, 90);
+    public Vector3 intermediateRotationOffset = new Vector3(90, 90, 90);
+    public Vector3 distalRotationOffset = new Vector3(90, 90, 90);
+    public Vector3 thumbRotationOffsetR = new Vector3(180, 90, 90);
+    public Vector3 thumbRotationOffsetL = new Vector3(180, 90, 90);
     public List<JointToHumanBodyBonesReference> jointToHumanBodyBones;
 
     private List<Transform> m_Fingers;
@@ -50,11 +49,7 @@ public class FingersRetargeting : MonoBehaviour
     private XRHandSkeletonDriver m_XRHandSkeletonDriver;
     private float m_HandScale;
     private bool m_IsScaleFix;
-    private Vector3 m_ProximalRotationOffset = new Vector3(90, 90, 90);
-    private Vector3 m_IntermediateRotationOffset = new Vector3(90, 90, 90);
-    private Vector3 m_DistalRotationOffset = new Vector3(90, 90, 90);
     private Vector3 m_ThumbRotationOffset;
-    private Vector3 m_MetacarpalRotationOffset;
     private XRHand m_XrHand;
     private List<JointToTransformReference> m_JointTransformReferences;
 
@@ -125,27 +120,8 @@ public class FingersRetargeting : MonoBehaviour
 
         if (m_HandSubsystem == null) return;
         m_XrHand = isRightHand ? m_HandSubsystem.rightHand : m_HandSubsystem.leftHand;
-        m_ThumbRotationOffset = isRightHand ? new Vector3(180, 90, 90) : new Vector3(0, 90, 90);
-        m_MetacarpalRotationOffset = isRightHand ? new Vector3(180, 90, 90) : new Vector3(0, 90, 90);
+        m_ThumbRotationOffset = isRightHand ? thumbRotationOffsetR : thumbRotationOffsetL;
         m_HandSubsystem.updatedHands += OnUpdatedHands;
-    }
-
-    [ContextMenu("HumanTraitBoneName")]
-    private void HumanTraitBoneName()
-    {
-        string[] muscleName = HumanTrait.MuscleName;
-        for (int i = 0; i < HumanTrait.BoneCount; ++i)
-        {
-            try
-            {
-                Debug.Log( HumanTrait.BoneName[i] + " -> " + HumanTrait.MuscleName[HumanTrait.MuscleFromBone(i, 1)] + " min: " + HumanTrait.GetMuscleDefaultMin(i) + " max: " + HumanTrait.GetMuscleDefaultMax(i));
-            }
-            catch (Exception e)
-            {
-                Debug.Log( HumanTrait.BoneName[i] + " do not have muscle" + e);
-                continue;
-            }
-        }
     }
     
     [ContextMenu("Setup Joints To HumanBodyBones")]
@@ -250,18 +226,15 @@ public class FingersRetargeting : MonoBehaviour
                     switch (xrFinger)
                     {
                         case XRHandJointID.IndexProximal or XRHandJointID.LittleProximal or XRHandJointID.MiddleProximal or XRHandJointID.RingProximal:
-                            avtFingerTransform.rotation = xrSkeletonJointTransform.rotation * Quaternion.Euler(m_ProximalRotationOffset);
+                            avtFingerTransform.rotation = xrSkeletonJointTransform.rotation * Quaternion.Euler(proximalRotationOffset);
                             break;
                         case XRHandJointID.IndexIntermediate or XRHandJointID.LittleIntermediate or XRHandJointID.MiddleIntermediate or XRHandJointID.RingIntermediate:
-                            avtFingerTransform.rotation = xrSkeletonJointTransform.rotation * Quaternion.Euler(m_IntermediateRotationOffset);
+                            avtFingerTransform.rotation = xrSkeletonJointTransform.rotation * Quaternion.Euler(intermediateRotationOffset);
                             break;
                         case XRHandJointID.IndexDistal or XRHandJointID.LittleDistal or XRHandJointID.MiddleDistal or XRHandJointID.RingDistal:
-                            avtFingerTransform.rotation = xrSkeletonJointTransform.rotation * Quaternion.Euler(m_DistalRotationOffset);
+                            avtFingerTransform.rotation = xrSkeletonJointTransform.rotation * Quaternion.Euler(distalRotationOffset);
                             break;
-                        case XRHandJointID.ThumbMetacarpal:
-                            avtFingerTransform.rotation = xrSkeletonJointTransform.rotation * Quaternion.Euler(m_MetacarpalRotationOffset);
-                            break;
-                        case XRHandJointID.ThumbProximal or XRHandJointID.ThumbDistal:
+                        case XRHandJointID.ThumbProximal or XRHandJointID.ThumbDistal or XRHandJointID.ThumbMetacarpal:
                             avtFingerTransform.rotation = xrSkeletonJointTransform.rotation * Quaternion.Euler(m_ThumbRotationOffset);
                             break;
                         default:
