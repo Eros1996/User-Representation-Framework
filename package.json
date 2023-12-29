@@ -1,0 +1,16 @@
+{
+    "name": "com.UserRepresentation.succ",
+    "displayName": "UserRepresentation",
+    "version": "1.0.0",
+    "unity": "2022.3",
+    "description": "User representation framework",
+    "keywords": [ "Virtual reality", "User representation", "Interaction", "Full body tracking" ],
+    "dependencies": {
+        "com.unity.inputsystem": "1.8.0-pre.2",
+        "com.unity.textmeshpro": "3.0.6",
+        "com.unity.xr.hands": "1.3.0",
+        "com.unity.xr.interaction.toolkit": "2.5.2",
+        "com.unity.xr.management": "4.4.0",
+        "com.unity.xr.openxr": "1.8.2"
+    }
+  }
