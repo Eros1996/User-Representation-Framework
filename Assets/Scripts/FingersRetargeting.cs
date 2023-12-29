@@ -35,7 +35,7 @@ public class FingersRetargeting : MonoBehaviour
     public Vector3 intermediateRotationOffset = new Vector3(90, 90, 90);
     public Vector3 distalRotationOffset = new Vector3(90, 90, 90);
     public Vector3 thumbRotationOffsetR = new Vector3(180, 90, 90);
-    public Vector3 thumbRotationOffsetL = new Vector3(180, 90, 90);
+    public Vector3 thumbRotationOffsetL = new Vector3(0, 90, 90);
     public List<JointToHumanBodyBonesReference> jointToHumanBodyBones;
 
     private List<Transform> m_Fingers;

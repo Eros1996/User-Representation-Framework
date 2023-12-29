@@ -65,12 +65,21 @@ public class AvatarTrackingManager : MonoBehaviour
     
     private void SetupVrikCalibrationInformation()
     {
-        m_VRIK = GetComponent<VRIK>() ?? gameObject.AddComponent<VRIK>();
-        m_VRIK.solver.plantFeet = true;
+        m_VRIK = gameObject.GetComponent<VRIK>();
+        if (m_VRIK == null)
+        {
+            m_VRIK = gameObject.AddComponent<VRIK>();
+            m_VRIK.solver.plantFeet = true;
+        }
         
-        m_CalibrationController = GetComponent<VRIKCalibrationController>() ?? gameObject.AddComponent<VRIKCalibrationController>();
-        m_CalibrationController.ik = m_VRIK;
-        m_CalibrationController.headTracker = m_XRHead;
+        m_CalibrationController = gameObject.GetComponent<VRIKCalibrationController>();
+        if (m_CalibrationController == null)
+        {
+            m_CalibrationController = gameObject.AddComponent<VRIKCalibrationController>();
+            m_CalibrationController.settings = new VRIKCalibrator.Settings();
+            m_CalibrationController.ik = m_VRIK;
+            m_CalibrationController.headTracker = m_XRHead;
+        }
     }
     
     private void FindXRComponents()
@@ -99,38 +108,51 @@ public class AvatarTrackingManager : MonoBehaviour
         // m_XRElbowL = GameObject.Find("Left Elbow IK_target").transform;
         // m_XRElbowR = GameObject.Find("Right Elbow IK_target").transform;
         
-        m_ButtonsInput = m_XRParent.GetComponent<OnButtonPress>() ?? m_XRParent.AddComponent<OnButtonPress>();
-        m_ButtonsInput.action.AddBinding("<XRController>{LeftHand}/triggerPressed");
-        m_ButtonsInput.action.AddBinding("<MetaAimHand>{LeftHand}/indexPressed"); // Remove when Leap Motion implement also other actions
+        m_ButtonsInput = m_XRParent.GetComponent<OnButtonPress>();
+        if (m_ButtonsInput == null)
+        {
+            m_ButtonsInput = m_XRParent.AddComponent<OnButtonPress>();
+            m_ButtonsInput.action.AddBinding("<XRController>{LeftHand}/triggerPressed");
+            m_ButtonsInput.action.AddBinding("<MetaAimHand>{LeftHand}/indexPressed"); // Substitute when Leap Motion implement also other actions
         
-        // m_ButtonsInput.action.AddCompositeBinding("ButtonWithOneModifier")
-        //     .With("Button", "<MetaAimHand>{RightHand}/ringPressed")
-        //     .With("Modifier", "<MetaAimHand>{LeftHand}/ringPressed");
-        m_ButtonsInput.OnPress.AddListener(VRIKCalibration);
+            // m_ButtonsInput.action.AddCompositeBinding("ButtonWithOneModifier")
+            //     .With("Button", "<MetaAimHand>{RightHand}/ringPressed")
+            //     .With("Modifier", "<MetaAimHand>{LeftHand}/ringPressed");
+            m_ButtonsInput.OnPress.AddListener(VRIKCalibration);
+        }
     }
 
     private void FindAvatarComponents()
     {
-        m_Animator = GetComponent<Animator>() ?? gameObject.AddComponent<Animator>();
-        m_AnimationInput = GetComponent<AnimateOnInput>() ?? gameObject.AddComponent<AnimateOnInput>();
-        
+        m_Animator = GetComponent<Animator>();
+        if (m_Animator == null)
+        {
+            m_Animator = gameObject.AddComponent<Animator>();
+        }
+
+        m_AnimationInput = GetComponent<AnimateOnInput>();
+        if (m_AnimationInput == null)
+        {
+            m_AnimationInput = gameObject.AddComponent<AnimateOnInput>();
+        }
+
         m_AvLeftHand = m_Animator.GetBoneTransform(HumanBodyBones.LeftHand).gameObject;
         m_AvRightHand = m_Animator.GetBoneTransform(HumanBodyBones.RightHand).gameObject;
         
         m_FingersRetargetingL = m_AvLeftHand.GetComponent<FingersRetargeting>();
         m_FingersRetargetingR = m_AvRightHand.GetComponent<FingersRetargeting>();
 
-        m_FingersRetargetingL = SetupFingersRetargeting(m_FingersRetargetingL, m_AvLeftHand);
-        m_FingersRetargetingR = SetupFingersRetargeting(m_FingersRetargetingR, m_AvRightHand);
+        m_FingersRetargetingL = SetupFingersRetargeting(m_FingersRetargetingL, m_AvLeftHand, false);
+        m_FingersRetargetingR = SetupFingersRetargeting(m_FingersRetargetingR, m_AvRightHand, true);
         EnableFingerRetargeting(false);
     }
 
-    private FingersRetargeting SetupFingersRetargeting(FingersRetargeting fingersRetargeting, GameObject hand)
+    private FingersRetargeting SetupFingersRetargeting(FingersRetargeting fingersRetargeting, GameObject hand, bool isRight)
     {
-        if (fingersRetargeting is not null) return fingersRetargeting;
+        if (fingersRetargeting != null) return fingersRetargeting;
         
         fingersRetargeting = hand.AddComponent<FingersRetargeting>();
-        fingersRetargeting.isRightHand = false;
+        fingersRetargeting.isRightHand = isRight;
         fingersRetargeting.SetupJointsToHumanBodyBones();
 
         return fingersRetargeting;
