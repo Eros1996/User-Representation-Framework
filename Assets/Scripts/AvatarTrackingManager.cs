@@ -18,7 +18,7 @@ public class AvatarTrackingManager : MonoBehaviour
 
     private XRInputModalityManager m_InputModalityManager;
     private GameObject m_XRRig, m_XRCam, m_XRParent, m_XRCamOff;
-    private Transform m_XRHead, m_XRLC, m_XRRC, m_XRLH, m_XRRH, m_XRLF, m_XRRF, m_XRP, m_WristLeft, m_WristRight, m_XRElbowR, m_XRElbowL;
+    private Transform m_XRHead, m_XRLC, m_XRRC, m_XRLH, m_XRRH, m_XRLF, m_XRRF, m_XRP, m_WristLeft, m_WristRight;
 
     private VRIK m_VRIK;
     private VRIKCalibrationController m_CalibrationController;
@@ -26,7 +26,6 @@ public class AvatarTrackingManager : MonoBehaviour
     private Animator m_Animator;
 
     private GameObject m_AvHead, m_AvLeftHand, m_AvRightHand;
-    private FingerRig m_FingerRigL, m_FingerRigR;
 
     private XRHandSkeletonDriver m_XRLeftHandSkeletonDriver, m_XRRightHandSkeletonDriver;
     private FingersRetargeting m_FingersRetargetingL;
@@ -102,18 +101,16 @@ public class AvatarTrackingManager : MonoBehaviour
         m_WristRight = m_XRRightHandSkeletonDriver.jointTransformReferences[XRHandJointID.BeginMarker.ToIndex()].jointTransform;
         m_XRRH = m_WristRight.Find("Right Arm IK_target-Leap offset").gameObject.activeSelf ? m_WristRight.Find("Right Arm IK_target-Leap offset") : m_WristRight;
         
-        m_XRLF = GameObject.Find("Left Foot IK_target")?.transform;
-        m_XRRF = GameObject.Find("Right Foot IK_target")?.transform;
-        m_XRP = GameObject.Find("Pelvis IK_target")?.transform;
-        // m_XRElbowL = GameObject.Find("Left Elbow IK_target").transform;
-        // m_XRElbowR = GameObject.Find("Right Elbow IK_target").transform;
+        m_XRLF = GameObject.Find("Left Foot Tracker")?.transform;
+        m_XRRF = GameObject.Find("Right Foot Tracker")?.transform;
+        m_XRP = GameObject.Find("Pelvis Tracker")?.transform;
         
         m_ButtonsInput = m_XRParent.GetComponent<OnButtonPress>();
         if (m_ButtonsInput == null)
         {
             m_ButtonsInput = m_XRParent.AddComponent<OnButtonPress>();
             m_ButtonsInput.action.AddBinding("<XRController>{LeftHand}/triggerPressed");
-            m_ButtonsInput.action.AddBinding("<MetaAimHand>{LeftHand}/indexPressed"); // Substitute when Leap Motion implement also other actions
+            m_ButtonsInput.action.AddBinding("<MetaAimHand>{LeftHand}/indexPressed");
         
             // m_ButtonsInput.action.AddCompositeBinding("ButtonWithOneModifier")
             //     .With("Button", "<MetaAimHand>{RightHand}/ringPressed")
@@ -168,11 +165,9 @@ public class AvatarTrackingManager : MonoBehaviour
             yield return null;
         }
         
-        m_CalibrationController.leftFootTracker = m_XRLF.localPosition == Vector3.zero ? null : m_XRLF;
-        m_CalibrationController.rightFootTracker = m_XRRF.localPosition == Vector3.zero ? null : m_XRLF;
-        m_CalibrationController.bodyTracker = m_XRP.localPosition == Vector3.zero ? null : m_XRP;
-        // m_ArmMocap.leftElbowTarget = m_XRElbowL.localPosition == Vector3.zero ? null : m_XRElbowL;      
-        // m_ArmMocap.rightElbowTarget = m_XRElbowR.localPosition == Vector3.zero ? null : m_XRElbowR;      
+        m_CalibrationController.leftFootTracker = m_XRLF.localPosition == Vector3.zero ? null : m_XRLF.GetChild(0);
+        m_CalibrationController.rightFootTracker = m_XRRF.localPosition == Vector3.zero ? null : m_XRRF.GetChild(0);
+        m_CalibrationController.bodyTracker = m_XRP.localPosition == Vector3.zero ? null : m_XRP.GetChild(0);
 
         switch (XRInputModalityManager.currentInputMode.Value)
         {
@@ -213,6 +208,16 @@ public class AvatarTrackingManager : MonoBehaviour
     private void EnableAnimation(bool enable)
     {
         m_Animator.enabled = enable;
+        // if (!enable)
+        // { 
+        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), 0);
+        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), 0);
+        // }
+        // else
+        // {
+        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), 1);
+        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), 1);
+        // }
         m_AnimationInput.enabled = enable;
     }
     
