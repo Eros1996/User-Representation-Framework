@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
-public enum HMD
+public enum Hmd
 {
     Sitting,
     StandUp
@@ -14,15 +14,15 @@ public enum HMD
 
 public class AvatarTrackingManager : MonoBehaviour
 { 
-    public HMD hmdType;
-
+    public Hmd hmdType;
+    public static bool m_CalibrationDone;
+    
     private XRInputModalityManager m_InputModalityManager;
     private GameObject m_XRRig, m_XRCam, m_XRParent, m_XRCamOff;
     private Transform m_XRHead, m_XRLC, m_XRRC, m_XRLH, m_XRRH, m_XRLF, m_XRRF, m_XRP, m_WristLeft, m_WristRight;
 
     private VRIK m_VRIK;
     private VRIKCalibrationController m_CalibrationController;
-    private VRIKArmMocap m_ArmMocap;
     private Animator m_Animator;
 
     private GameObject m_AvHead, m_AvLeftHand, m_AvRightHand;
@@ -32,7 +32,7 @@ public class AvatarTrackingManager : MonoBehaviour
     private FingersRetargeting m_FingersRetargetingR;
     private AnimateOnInput m_AnimationInput;
     private OnButtonPress m_ButtonsInput;
-    private bool m_InitializationDone;
+    private bool m_InitializationDone, m_FeetTrackingOn;
     
     // Start is called before the first frame update
     void Start()
@@ -46,14 +46,12 @@ public class AvatarTrackingManager : MonoBehaviour
 
     private void SetupSittingOffset()
     {
-        if (hmdType == HMD.Sitting)
-        {
-            var myOffset = new GameObject();
-            myOffset.name = "Sitting Offset";
-            myOffset.transform.SetParent(m_XRRig.transform);
-            myOffset.transform.position = Vector3.up * 0.35f;
-            m_XRCamOff.transform.SetParent(myOffset.transform);
-        }
+        if (hmdType != Hmd.Sitting) return;
+        var myOffset = new GameObject();
+        myOffset.name = "Sitting Offset";
+        myOffset.transform.SetParent(m_XRRig.transform);
+        myOffset.transform.position = Vector3.up * 0.35f;
+        m_XRCamOff.transform.SetParent(myOffset.transform);
     }
 
     private void SetupXREvents()
@@ -115,7 +113,7 @@ public class AvatarTrackingManager : MonoBehaviour
             // m_ButtonsInput.action.AddCompositeBinding("ButtonWithOneModifier")
             //     .With("Button", "<MetaAimHand>{RightHand}/ringPressed")
             //     .With("Modifier", "<MetaAimHand>{LeftHand}/ringPressed");
-            m_ButtonsInput.OnPress.AddListener(VRIKCalibration);
+            m_ButtonsInput.OnPress.AddListener(VrikCalibration);
         }
     }
 
@@ -164,16 +162,18 @@ public class AvatarTrackingManager : MonoBehaviour
             // Debug.Log("NONE");
             yield return null;
         }
-        
-        m_CalibrationController.leftFootTracker = m_XRLF.localPosition == Vector3.zero ? null : m_XRLF.GetChild(0);
-        m_CalibrationController.rightFootTracker = m_XRRF.localPosition == Vector3.zero ? null : m_XRRF.GetChild(0);
-        m_CalibrationController.bodyTracker = m_XRP.localPosition == Vector3.zero ? null : m_XRP.GetChild(0);
+
+        m_FeetTrackingOn = m_XRLF.localPosition != Vector3.zero && m_XRRF.localPosition != Vector3.zero;
+
+        m_CalibrationController.leftFootTracker = m_FeetTrackingOn ? m_XRLF.GetChild(0) : null;
+        m_CalibrationController.rightFootTracker = m_FeetTrackingOn ? m_XRRF.GetChild(0) : null ;
+        m_CalibrationController.bodyTracker = m_XRP.localPosition != Vector3.zero ? m_XRP.GetChild(0) : null;
 
         switch (XRInputModalityManager.currentInputMode.Value)
         {
             case XRInputModalityManager.InputMode.TrackedHand:
                 EnableAnimation(false);
-                SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Procedural, 1);
+                SetVrikLocomotionMode(IKSolverVR.Locomotion.Mode.Procedural, 1);
                 m_CalibrationController.leftHandTracker = m_XRLH;
                 m_CalibrationController.rightHandTracker = m_XRRH;
                 CalibrationData();
@@ -182,7 +182,7 @@ public class AvatarTrackingManager : MonoBehaviour
                 break;
             case XRInputModalityManager.InputMode.MotionController:
                 EnableAnimation(true);
-                SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, 1);
+                SetVrikLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, 1);
                 m_CalibrationController.leftHandTracker = m_XRLC;
                 m_CalibrationController.rightHandTracker = m_XRRC;
                 CalibrationData();
@@ -190,6 +190,8 @@ public class AvatarTrackingManager : MonoBehaviour
                 // Debug.Log("controller on");
                 break;
         }
+
+        m_CalibrationDone = true;
     }
     
     private void EnableFingerRetargeting(bool enable)
@@ -208,16 +210,6 @@ public class AvatarTrackingManager : MonoBehaviour
     private void EnableAnimation(bool enable)
     {
         m_Animator.enabled = enable;
-        // if (!enable)
-        // { 
-        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), 0);
-        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), 0);
-        // }
-        // else
-        // {
-        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), 1);
-        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), 1);
-        // }
         m_AnimationInput.enabled = enable;
     }
     
@@ -233,7 +225,7 @@ public class AvatarTrackingManager : MonoBehaviour
         StartCoroutine(WaitXRMode());
     }
 
-    private void SetVRIKLocomotionMode(IKSolverVR.Locomotion.Mode locomotionMode, int weight)
+    private void SetVrikLocomotionMode(IKSolverVR.Locomotion.Mode locomotionMode, int weight)
     {
         m_VRIK.solver.locomotion.mode = locomotionMode;
         m_VRIK.solver.locomotion.weight = weight;
@@ -257,7 +249,7 @@ public class AvatarTrackingManager : MonoBehaviour
             m_CalibrationController.rightFootTracker);
     }
     
-    private void VRIKCalibration()
+    private void VrikCalibration()
     {
         StartCoroutine(WaitXRMode());
         // Debug.Log("CALIBRATED");

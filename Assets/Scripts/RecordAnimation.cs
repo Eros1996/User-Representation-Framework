@@ -12,28 +12,25 @@ public class RecordAnimation : MonoBehaviour
 	public AnimationClip clip;
 
     private Animator m_Animator;
-    private bool m_RecordingAnim, m_RecordingCSV;
+    private bool m_RecordingAnim, m_RecordingCsv;
 
     private HumanPoseHandler m_PoseHandler;
     private HumanPose m_HumanPose;
-    private Dictionary<string, AnimationCurve> m_MuscleCurve = new Dictionary<string, AnimationCurve>();
-    private float time = 0;
+    private readonly Dictionary<string, AnimationCurve> m_MuscleCurve = new Dictionary<string, AnimationCurve>();
+    private float m_Time = 0;
+    private readonly string[] m_Fingers = { "Thumb", "Index", "Middle", "Ring", "Little" };
+    private VRIK m_Vrik;
     
-    private List<float> m_TransformList = new List<float>();
-	private CultureInfo invC = CultureInfo.InvariantCulture;
+    private readonly List<float> m_TransformList = new List<float>();
+	private readonly CultureInfo m_InvC = CultureInfo.InvariantCulture;
 	private string m_FilePath;
     private StreamWriter m_Writer;
-
-    private string[] fingers = { "Thumb", "Index", "Middle", "Ring", "Little" };
-
-    private VRIK vrik;
     
 	// Start is called before the first frame update
 	void Start()
     {
 		m_Animator = GetComponent<Animator>();
 		m_PoseHandler = new HumanPoseHandler(m_Animator.avatar, this.transform);
-		vrik = GetComponent<VRIK>();
     }
 	
 	private void LateUpdate()
@@ -45,36 +42,48 @@ public class RecordAnimation : MonoBehaviour
 				StopRecordingAnim();
 		
 		if (Input.GetKeyDown(KeyCode.C))
-			if(!m_RecordingCSV) 
+			if(!m_RecordingCsv) 
 				StartRecordingCsv();
 			else 
 				StopRecordingCsv();
 	}
+
+	#region PUBLIC FUNCTION TO RECORD
 	
 	public void StartRecordingCsv() 
     {
-	    if(m_RecordingCSV) return;
+	    if(m_RecordingCsv) return;
 
 	    Debug.Log("Start Recording");
-	    m_RecordingCSV = true;
+	    m_RecordingCsv = true;
 		StartCoroutine(Recording());
     }
 
     public void StopRecordingCsv() 
     {
-	    if(!m_RecordingCSV) return;
+	    if(!m_RecordingCsv) return;
 
-	    m_RecordingCSV = false;
+	    m_RecordingCsv = false;
 	    StopCoroutine(Recording());
 	    WriteToCsv(GetCsvPath());
 	    Debug.Log("Stop Recording");
     }
 
+    public void StartRecordingAnim()
+    {
+	    if(m_RecordingAnim) return;
+	    
+	    Debug.Log("Start Recording");
+	    m_Vrik = GetComponent<VRIK>();
+	    m_RecordingAnim = true;
+	    m_Vrik.solver.OnPostUpdate += BuildDictOfMuscle;
+    }
+    
     public void StopRecordingAnim()
     {
 	    if(!m_RecordingAnim) return;
 	    
-	    vrik.solver.OnPostUpdate -= BuildDictOfMuscle;
+	    m_Vrik.solver.OnPostUpdate -= BuildDictOfMuscle;
 
 	    m_RecordingAnim = false;
 	    clip.ClearCurves();
@@ -88,15 +97,7 @@ public class RecordAnimation : MonoBehaviour
 	    
 	    Debug.Log("Stop Recording");
     }
-
-    public void StartRecordingAnim()
-    {
-	    if(m_RecordingAnim) return;
-	    
-	    Debug.Log("Start Recording");
-	    m_RecordingAnim = true;
-	    vrik.solver.OnPostUpdate += BuildDictOfMuscle;
-    }
+    #endregion
     
     #region ANIM RECORDING
 
@@ -149,11 +150,11 @@ public class RecordAnimation : MonoBehaviour
 		AddCurve("RightFootQ.z", m_Animator.GetBoneTransform(HumanBodyBones.RightFoot).transform.rotation.z);
 		AddCurve("RightFootQ.w", m_Animator.GetBoneTransform(HumanBodyBones.RightFoot).transform.rotation.w);
 
-		for (int i = 0; i < HumanTrait.BoneCount; ++i)
+		for (var i = 0; i < HumanTrait.BoneCount; ++i)
 		{
 			try
 			{
-				string s = MuscleNameCheck(HumanTrait.MuscleName[HumanTrait.MuscleFromBone(i, 0)]);
+				var s = MuscleNameCheck(HumanTrait.MuscleName[HumanTrait.MuscleFromBone(i, 0)]);
 				AddCurve(s, m_HumanPose.muscles[HumanTrait.MuscleFromBone(i, 0)]);
 			}
 			catch
@@ -163,7 +164,7 @@ public class RecordAnimation : MonoBehaviour
 		
 			try
 			{
-				string s = MuscleNameCheck(HumanTrait.MuscleName[HumanTrait.MuscleFromBone(i, 1)]);
+				var s = MuscleNameCheck(HumanTrait.MuscleName[HumanTrait.MuscleFromBone(i, 1)]);
 				AddCurve(s, m_HumanPose.muscles[HumanTrait.MuscleFromBone(i, 1)]);
 			}
 			catch
@@ -173,7 +174,7 @@ public class RecordAnimation : MonoBehaviour
 		
 			try
 			{
-				string s = MuscleNameCheck(HumanTrait.MuscleName[HumanTrait.MuscleFromBone(i, 2)]);
+				var s = MuscleNameCheck(HumanTrait.MuscleName[HumanTrait.MuscleFromBone(i, 2)]);
 				AddCurve(s, m_HumanPose.muscles[HumanTrait.MuscleFromBone(i, 2)]);
 			}
 			catch
@@ -182,12 +183,12 @@ public class RecordAnimation : MonoBehaviour
 			}
 		}
 		
-		time += 1/60f;
+		m_Time += 1/60f;
 	}
 
 	private string MuscleNameCheck(string s)
 	{
-		if (fingers.Any(c => s.Contains(c)))
+		if (m_Fingers.Any(c => s.Contains(c)))
 		{
 			var c = s.Split(" ");
 			s = c.Length == 3
@@ -203,12 +204,12 @@ public class RecordAnimation : MonoBehaviour
 		if (!m_MuscleCurve.ContainsKey(s))
 		{
 			var curve = new AnimationCurve();
-			curve.AddKey(time, val);
+			curve.AddKey(m_Time, val);
 			m_MuscleCurve.Add(s, curve);
 		}
 		else
 		{
-			m_MuscleCurve[s].AddKey(time, val);
+			m_MuscleCurve[s].AddKey(m_Time, val);
 		}
 	}
 	#endregion
@@ -216,9 +217,9 @@ public class RecordAnimation : MonoBehaviour
 	#region CSV RECORDING
 	private IEnumerator Recording() {
 
-        while (m_RecordingCSV) 
+        while (m_RecordingCsv) 
         {
-            for (int i = (int)HumanBodyBones.Hips; i < (int)HumanBodyBones.LastBone; i++) 
+            for (var i = (int)HumanBodyBones.Hips; i < (int)HumanBodyBones.LastBone; i++) 
             { 
                 var t = m_Animator.GetBoneTransform((HumanBodyBones)i);
                 if (t == null) 
@@ -242,7 +243,7 @@ public class RecordAnimation : MonoBehaviour
 
 		m_Writer = new StreamWriter(filePath);
 
-		for (int i = (int)HumanBodyBones.Hips; i < (int)HumanBodyBones.LastBone; i++)
+		for (var i = (int)HumanBodyBones.Hips; i < (int)HumanBodyBones.LastBone; i++)
 		{
 			m_Writer.Write((HumanBodyBones)i + "PosX, ");
 			m_Writer.Write((HumanBodyBones)i + "PosY, ");
@@ -252,14 +253,14 @@ public class RecordAnimation : MonoBehaviour
 			m_Writer.Write((HumanBodyBones)i + "RotZ, ");
 		}
 
-		for (int i = 0; i < m_TransformList.Count; i++) 
+		for (var i = 0; i < m_TransformList.Count; i++) 
         {
 			if (i % 330 == 0)
 			{
 				m_Writer.WriteLine();
 			}
 			var t = m_TransformList[i];
-			m_Writer.Write(t.ToString(invC) + ", ");      
+			m_Writer.Write(t.ToString(m_InvC) + ", ");      
 		}
 
 		m_Writer.Flush();
