@@ -168,7 +168,7 @@ public class AvatarTrackingManager : MonoBehaviour
         {
             case XRInputModalityManager.InputMode.TrackedHand:
                 EnableAnimation(false);
-                SetVrikLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, m_FeetTrackingOn ? 0 : 1);
+                SetVrikLocomotionMode(IKSolverVR.Locomotion.Mode.Procedural, m_FeetTrackingOn ? 0 : 1);
                 m_CalibrationController.leftHandTracker = m_XRLH;
                 m_CalibrationController.rightHandTracker = m_XRRH;
                 CalibrationData();
@@ -211,19 +211,19 @@ public class AvatarTrackingManager : MonoBehaviour
         }
         
         m_AnimationInput.enabled = enable;
-        //m_Animator.enabled = enable;
+        m_Animator.enabled = enable;
 
-        if (enable)
-        {
-            m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), 1);
-            m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), 1);
-        }
-        else
-        {
-            m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), 0);
-            m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), 0);
-        }
-        m_Animator.enabled = true;
+        // if (enable)
+        // {
+        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), 1);
+        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), 1);
+        // }
+        // else
+        // {
+        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), 0);
+        //     m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), 0);
+        // }
+        // m_Animator.enabled = true;
     }
     
     private void SwitchToHandTracking()
