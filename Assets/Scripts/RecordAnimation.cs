@@ -7,10 +7,41 @@ using System.Linq;
 using RootMotion.FinalIK;
 using UnityEngine;
 
+public enum ToRecord
+{
+	Keep,
+	Ignore
+}
+
+[Serializable]
+public struct BonesToRecord
+{
+	[SerializeField]
+	[Tooltip("The XR Hand Joint Identifier that will drive the Transform.")]
+	ToRecord m_ToRecord;
+    
+	[SerializeField]
+	[Tooltip("The HumanBodyBones that will be driven by the specified XR Joint.")]
+	HumanBodyBones m_HumanBodyBone;
+    
+	public ToRecord toRecord
+	{
+		get => m_ToRecord;
+		set => m_ToRecord = value;
+	}
+    
+	public HumanBodyBones humanBodyBone
+	{
+		get => m_HumanBodyBone;
+		set => m_HumanBodyBone = value;
+	}
+}
+
 public class RecordAnimation : MonoBehaviour
 {
 	public AnimationClip clip;
-
+	public List<BonesToRecord> bonesToRecord;
+	
     private Animator m_Animator;
     private bool m_RecordingAnim, m_RecordingCsv;
 
@@ -25,6 +56,38 @@ public class RecordAnimation : MonoBehaviour
 	private readonly CultureInfo m_InvC = CultureInfo.InvariantCulture;
 	private string m_FilePath;
     private StreamWriter m_Writer;
+
+    [ContextMenu("Record all bones")]
+    public void RecordAllBones()
+    {
+	    BonesToRecord btn;
+	    bonesToRecord = new List<BonesToRecord>();
+	    for (var i = (int)HumanBodyBones.Hips; i < (int)HumanBodyBones.LastBone; i++)
+	    {
+		    btn = new BonesToRecord()
+		    {
+			    humanBodyBone = (HumanBodyBones)i,
+			    toRecord = ToRecord.Keep
+		    };
+		    bonesToRecord.Add(btn);
+	    }
+    }
+    
+    [ContextMenu("Ignore all bones")]
+    public void IgnoreAllBones()
+    {
+	    BonesToRecord btn;
+	    bonesToRecord = new List<BonesToRecord>();
+	    for (var i = (int)HumanBodyBones.Hips; i < (int)HumanBodyBones.LastBone; i++)
+	    {
+		    btn = new BonesToRecord()
+		    {
+			    humanBodyBone = (HumanBodyBones)i,
+			    toRecord = ToRecord.Ignore
+		    };
+		    bonesToRecord.Add(btn);
+	    }
+    }
     
 	// Start is called before the first frame update
 	void Start()
@@ -45,7 +108,7 @@ public class RecordAnimation : MonoBehaviour
 			if(!m_RecordingCsv) 
 				StartRecordingCsv();
 			else 
-				StopRecordingCsv();
+				StopRecordingCsv("animation");
 	}
 
 	#region PUBLIC FUNCTION TO RECORD
@@ -59,13 +122,13 @@ public class RecordAnimation : MonoBehaviour
 		StartCoroutine(Recording());
     }
 
-    public void StopRecordingCsv() 
+    public void StopRecordingCsv(string s) 
     {
 	    if(!m_RecordingCsv) return;
 
 	    m_RecordingCsv = false;
 	    StopCoroutine(Recording());
-	    WriteToCsv(GetCsvPath());
+	    WriteToCsv(s);
 	    Debug.Log("Stop Recording");
     }
 
@@ -150,8 +213,14 @@ public class RecordAnimation : MonoBehaviour
 		AddCurve("RightFootQ.z", m_Animator.GetBoneTransform(HumanBodyBones.RightFoot).transform.rotation.z);
 		AddCurve("RightFootQ.w", m_Animator.GetBoneTransform(HumanBodyBones.RightFoot).transform.rotation.w);
 
+		Debug.Log(HumanTrait.BoneCount);
 		for (var i = 0; i < HumanTrait.BoneCount; ++i)
 		{
+			
+			if(bonesToRecord[i].toRecord == ToRecord.Ignore)
+				continue;
+			
+			Debug.Log(HumanTrait.BoneName[i]);
 			try
 			{
 				var s = MuscleNameCheck(HumanTrait.MuscleName[HumanTrait.MuscleFromBone(i, 0)]);
@@ -222,7 +291,7 @@ public class RecordAnimation : MonoBehaviour
             for (var i = (int)HumanBodyBones.Hips; i < (int)HumanBodyBones.LastBone; i++) 
             { 
                 var t = m_Animator.GetBoneTransform((HumanBodyBones)i);
-                if (t == null) 
+                if (bonesToRecord[i].toRecord == ToRecord.Ignore || t == null) 
                 {
 					m_TransformList.Add(0.0f); m_TransformList.Add(0.0f);
 					m_TransformList.Add(0.0f); m_TransformList.Add(0.0f);
@@ -239,9 +308,18 @@ public class RecordAnimation : MonoBehaviour
 		}
 	}
 
-    private void WriteToCsv(string filePath) {
+    private void WriteToCsv(string fileName) {
 
-		m_Writer = new StreamWriter(filePath);
+	    if (fileName == "")
+	    {
+		    fileName = GetCsvPath();
+	    }
+	    else
+	    {
+		    fileName = Application.dataPath + "/" +  fileName + ".csv";
+	    }
+	    
+		m_Writer = new StreamWriter(fileName);
 
 		for (var i = (int)HumanBodyBones.Hips; i < (int)HumanBodyBones.LastBone; i++)
 		{

@@ -13,7 +13,7 @@ public class AnimateOnInput : MonoBehaviour
     private static readonly int VrikTriggerR = Animator.StringToHash("VRIK_TriggerR");
     private static readonly int VrikGripR = Animator.StringToHash("VRIK_GripR");
 
-    private void Awake()
+    private void Start()
     {
         m_Animator = this.GetComponent<Animator>();
         var xrRig = GameObject.Find("XR Origin (XR Rig)");
@@ -32,11 +32,11 @@ public class AnimateOnInput : MonoBehaviour
 
     private void OnEnable()
     {
-        m_Animator.writeDefaultValuesOnDisable = true;
+        //m_Animator.writeDefaultValuesOnDisable = true;
     }
     
     private void OnDisable()
     {
-        m_Animator.WriteDefaultValues();
+        //m_Animator.WriteDefaultValues();
     }
 }

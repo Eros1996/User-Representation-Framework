@@ -119,17 +119,11 @@ public class AvatarTrackingManager : MonoBehaviour
 
     private void FindAvatarComponents()
     {
-        m_Animator = GetComponent<Animator>();
-        if (m_Animator == null)
-        {
-            m_Animator = gameObject.AddComponent<Animator>();
-        }
-
-        m_AnimationInput = GetComponent<AnimateOnInput>();
-        if (m_AnimationInput == null)
-        {
-            m_AnimationInput = gameObject.AddComponent<AnimateOnInput>();
-        }
+        m_Animator = GetOrAddComponent<Animator>();
+        m_Animator.enabled = false;
+        
+        m_AnimationInput = GetOrAddComponent<AnimateOnInput>();
+        m_AnimationInput.enabled = false;
 
         m_AvLeftHand = m_Animator.GetBoneTransform(HumanBodyBones.LeftHand).gameObject;
         m_AvRightHand = m_Animator.GetBoneTransform(HumanBodyBones.RightHand).gameObject;
@@ -149,7 +143,8 @@ public class AvatarTrackingManager : MonoBehaviour
         fingersRetargeting = hand.AddComponent<FingersRetargeting>();
         fingersRetargeting.isRightHand = isRight;
         fingersRetargeting.SetupJointsToHumanBodyBones();
-
+        fingersRetargeting.enabled = false;
+        
         return fingersRetargeting;
     }
 
@@ -173,7 +168,7 @@ public class AvatarTrackingManager : MonoBehaviour
         {
             case XRInputModalityManager.InputMode.TrackedHand:
                 EnableAnimation(false);
-                SetVrikLocomotionMode(IKSolverVR.Locomotion.Mode.Procedural, 1);
+                SetVrikLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, m_FeetTrackingOn ? 0 : 1);
                 m_CalibrationController.leftHandTracker = m_XRLH;
                 m_CalibrationController.rightHandTracker = m_XRRH;
                 CalibrationData();
@@ -182,7 +177,7 @@ public class AvatarTrackingManager : MonoBehaviour
                 break;
             case XRInputModalityManager.InputMode.MotionController:
                 EnableAnimation(true);
-                SetVrikLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, 1);
+                SetVrikLocomotionMode(IKSolverVR.Locomotion.Mode.Animated, m_FeetTrackingOn ? 0 : 1);
                 m_CalibrationController.leftHandTracker = m_XRLC;
                 m_CalibrationController.rightHandTracker = m_XRRC;
                 CalibrationData();
@@ -209,8 +204,26 @@ public class AvatarTrackingManager : MonoBehaviour
 
     private void EnableAnimation(bool enable)
     {
-        m_Animator.enabled = enable;
+        if (m_FeetTrackingOn)
+        {
+            m_Animator.enabled = false;
+            return;
+        }
+        
         m_AnimationInput.enabled = enable;
+        //m_Animator.enabled = enable;
+
+        if (enable)
+        {
+            m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), 1);
+            m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), 1);
+        }
+        else
+        {
+            m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Left Hand Layer"), 0);
+            m_Animator.SetLayerWeight(m_Animator.GetLayerIndex("Right Hand Layer"), 0);
+        }
+        m_Animator.enabled = true;
     }
     
     private void SwitchToHandTracking()
@@ -253,5 +266,16 @@ public class AvatarTrackingManager : MonoBehaviour
     {
         StartCoroutine(WaitXRMode());
         // Debug.Log("CALIBRATED");
+    }
+
+    private T GetOrAddComponent<T>() where T : Component
+    {
+        var component = GetComponent<T>();
+        if (component == null)
+        {
+            component =  gameObject.AddComponent<T>();
+        }
+
+        return component;
     }
 }

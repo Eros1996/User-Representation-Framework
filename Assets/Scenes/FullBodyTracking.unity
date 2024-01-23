@@ -8612,7 +8612,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &1702048004
 Animator:
   serializedVersion: 5
@@ -8633,7 +8633,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 1
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1702048005
 Transform:
   m_ObjectHideFlags: 0
@@ -8664,7 +8664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f4c6f86be00a4c4b976bc7e40145393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hmdType: 1
+  hmdType: 0
 --- !u!114 &1702048007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8677,7 +8677,118 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0146401b754faa649a65ecb334359858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clip: {fileID: 7400000, guid: f62b13cb73aaf7e4e872fb94400d37bb, type: 2}
+  clip: {fileID: 7400000, guid: 671c281cdbbce9b4083a58757a4408cd, type: 2}
+  bonesToRecord:
+  - m_ToRecord: 1
+    m_HumanBodyBone: 0
+  - m_ToRecord: 0
+    m_HumanBodyBone: 1
+  - m_ToRecord: 0
+    m_HumanBodyBone: 2
+  - m_ToRecord: 0
+    m_HumanBodyBone: 3
+  - m_ToRecord: 0
+    m_HumanBodyBone: 4
+  - m_ToRecord: 0
+    m_HumanBodyBone: 5
+  - m_ToRecord: 0
+    m_HumanBodyBone: 6
+  - m_ToRecord: 0
+    m_HumanBodyBone: 7
+  - m_ToRecord: 0
+    m_HumanBodyBone: 8
+  - m_ToRecord: 0
+    m_HumanBodyBone: 9
+  - m_ToRecord: 0
+    m_HumanBodyBone: 10
+  - m_ToRecord: 0
+    m_HumanBodyBone: 11
+  - m_ToRecord: 0
+    m_HumanBodyBone: 12
+  - m_ToRecord: 0
+    m_HumanBodyBone: 13
+  - m_ToRecord: 0
+    m_HumanBodyBone: 14
+  - m_ToRecord: 0
+    m_HumanBodyBone: 15
+  - m_ToRecord: 0
+    m_HumanBodyBone: 16
+  - m_ToRecord: 0
+    m_HumanBodyBone: 17
+  - m_ToRecord: 0
+    m_HumanBodyBone: 18
+  - m_ToRecord: 0
+    m_HumanBodyBone: 19
+  - m_ToRecord: 0
+    m_HumanBodyBone: 20
+  - m_ToRecord: 0
+    m_HumanBodyBone: 21
+  - m_ToRecord: 0
+    m_HumanBodyBone: 22
+  - m_ToRecord: 0
+    m_HumanBodyBone: 23
+  - m_ToRecord: 0
+    m_HumanBodyBone: 24
+  - m_ToRecord: 0
+    m_HumanBodyBone: 25
+  - m_ToRecord: 0
+    m_HumanBodyBone: 26
+  - m_ToRecord: 0
+    m_HumanBodyBone: 27
+  - m_ToRecord: 0
+    m_HumanBodyBone: 28
+  - m_ToRecord: 0
+    m_HumanBodyBone: 29
+  - m_ToRecord: 0
+    m_HumanBodyBone: 30
+  - m_ToRecord: 0
+    m_HumanBodyBone: 31
+  - m_ToRecord: 0
+    m_HumanBodyBone: 32
+  - m_ToRecord: 0
+    m_HumanBodyBone: 33
+  - m_ToRecord: 0
+    m_HumanBodyBone: 34
+  - m_ToRecord: 0
+    m_HumanBodyBone: 35
+  - m_ToRecord: 0
+    m_HumanBodyBone: 36
+  - m_ToRecord: 0
+    m_HumanBodyBone: 37
+  - m_ToRecord: 0
+    m_HumanBodyBone: 38
+  - m_ToRecord: 0
+    m_HumanBodyBone: 39
+  - m_ToRecord: 0
+    m_HumanBodyBone: 40
+  - m_ToRecord: 0
+    m_HumanBodyBone: 41
+  - m_ToRecord: 0
+    m_HumanBodyBone: 42
+  - m_ToRecord: 0
+    m_HumanBodyBone: 43
+  - m_ToRecord: 0
+    m_HumanBodyBone: 44
+  - m_ToRecord: 0
+    m_HumanBodyBone: 45
+  - m_ToRecord: 0
+    m_HumanBodyBone: 46
+  - m_ToRecord: 0
+    m_HumanBodyBone: 47
+  - m_ToRecord: 0
+    m_HumanBodyBone: 48
+  - m_ToRecord: 0
+    m_HumanBodyBone: 49
+  - m_ToRecord: 0
+    m_HumanBodyBone: 50
+  - m_ToRecord: 0
+    m_HumanBodyBone: 51
+  - m_ToRecord: 0
+    m_HumanBodyBone: 52
+  - m_ToRecord: 0
+    m_HumanBodyBone: 53
+  - m_ToRecord: 0
+    m_HumanBodyBone: 54
 --- !u!1 &1707915549
 GameObject:
   m_ObjectHideFlags: 0
@@ -9734,6 +9845,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror
       objectReference: {fileID: 0}
+    - target: {fileID: 6667782485684124090, guid: 3eaa9169de4f1664ab56db4b9e526b12, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10090,84 +10205,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959915361}
   m_CullTransparentMesh: 1
---- !u!1001 &1960318457
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      propertyPath: m_Name
-      value: Remy
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1960318459}
-  m_SourcePrefab: {fileID: 100100000, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
---- !u!1 &1960318458 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0790da9090ebe2d40a7cf2b2db565e25, type: 3}
-  m_PrefabInstance: {fileID: 1960318457}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1960318459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960318458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f4c6f86be00a4c4b976bc7e40145393, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hmdType: 1
 --- !u!1 &1979343530
 GameObject:
   m_ObjectHideFlags: 0
@@ -11848,4 +11885,3 @@ SceneRoots:
   - {fileID: 101356426}
   - {fileID: 1702048005}
   - {fileID: 1447678837}
-  - {fileID: 1960318457}
