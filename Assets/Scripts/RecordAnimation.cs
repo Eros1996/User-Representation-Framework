@@ -35,6 +35,7 @@ public class RecordAnimation : MonoBehaviour
 	    {
 		    btn = new BonesToRecord()
 		    {
+			    name = ((HumanBodyBones)i).ToString(),
 			    humanBodyBone = (HumanBodyBones)i,
 			    toRecord = ToRecord.Keep
 		    };
@@ -51,14 +52,45 @@ public class RecordAnimation : MonoBehaviour
 	    {
 		    btn = new BonesToRecord()
 		    {
+			    name = ((HumanBodyBones)i).ToString(),
 			    humanBodyBone = (HumanBodyBones)i,
 			    toRecord = ToRecord.Ignore
 		    };
 		    bonesToRecord.Add(btn);
 	    }
     }
-    
-	// Start is called before the first frame update
+
+    [ContextMenu("Ignore all fingers")]
+    public void IgnoreAllFingers()
+    {
+	    BonesToRecord btn;
+	    bonesToRecord = new List<BonesToRecord>();
+	    for (var i = (int)HumanBodyBones.Hips; i < (int)HumanBodyBones.LastBone; i++)
+	    {
+		    if (i >= (int)HumanBodyBones.LeftThumbProximal && i <= (int)HumanBodyBones.RightLittleDistal)
+		    {
+			    btn = new BonesToRecord()
+			    {
+				    name = ((HumanBodyBones)i).ToString(),
+				    humanBodyBone = (HumanBodyBones)i,
+				    toRecord = ToRecord.Ignore
+			    };
+			    bonesToRecord.Add(btn);
+		    }
+		    else
+		    {
+			    btn = new BonesToRecord()
+			    {
+				    name = ((HumanBodyBones)i).ToString(),
+				    humanBodyBone = (HumanBodyBones)i,
+				    toRecord = ToRecord.Keep
+			    };
+			    bonesToRecord.Add(btn);
+		    }
+	    }
+    }
+
+    // Start is called before the first frame update
 	void Start()
     {
 		m_Animator = GetComponent<Animator>();

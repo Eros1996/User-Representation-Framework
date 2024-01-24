@@ -10,6 +10,8 @@ public enum ToRecord
 [Serializable]
 public struct BonesToRecord
 {
+    public string name;
+    
     [SerializeField]
     [Tooltip("The XR Hand Joint Identifier that will drive the Transform.")]
     ToRecord m_ToRecord;
