@@ -83,7 +83,7 @@ public class AvatarTrackingManager : MonoBehaviour
     {
         m_XRRig = GameObject.Find("XR Origin (XR Rig)");
         m_XRCam = GameObject.Find("Main Camera");
-        m_XRParent = GameObject.Find("XR Body Tracking Setup");
+        m_XRParent = GameObject.Find("XR Interaction Hands Setup");
         m_XRCamOff = GameObject.Find("Camera Offset");
         
         m_InputModalityManager = m_XRRig.GetComponent<XRInputModalityManager>();

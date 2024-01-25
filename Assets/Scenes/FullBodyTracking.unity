@@ -7774,63 +7774,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 714a27c3372b8074d8370e2bc0cecf56, type: 3}
   m_PrefabInstance: {fileID: 1441814983}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1447678837
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4428050192455555570, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428050192455555570, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428050192455555570, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428050192455555570, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428050192455555570, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428050192455555570, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428050192455555570, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428050192455555570, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428050192455555570, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428050192455555570, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4468850675204168850, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
-      propertyPath: m_Name
-      value: XR Body Tracking Setup
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 041d1247070f9a747a3b04c08d58f463, type: 3}
 --- !u!1 &1475098642
 GameObject:
   m_ObjectHideFlags: 0
@@ -8539,178 +8482,40 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702048001}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0146401b754faa649a65ecb334359858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clip: {fileID: 7400000, guid: 671c281cdbbce9b4083a58757a4408cd, type: 2}
+  clip: {fileID: 7400000, guid: f62b13cb73aaf7e4e872fb94400d37bb, type: 2}
   bonesToRecord:
-  - name: Hips
-    m_ToRecord: 0
-    m_HumanBodyBone: 0
-  - name: LeftUpperLeg
-    m_ToRecord: 0
-    m_HumanBodyBone: 1
-  - name: RightUpperLeg
-    m_ToRecord: 0
-    m_HumanBodyBone: 2
-  - name: LeftLowerLeg
-    m_ToRecord: 0
-    m_HumanBodyBone: 3
-  - name: RightLowerLeg
-    m_ToRecord: 0
-    m_HumanBodyBone: 4
-  - name: LeftFoot
-    m_ToRecord: 0
-    m_HumanBodyBone: 5
-  - name: RightFoot
-    m_ToRecord: 0
-    m_HumanBodyBone: 6
-  - name: Spine
-    m_ToRecord: 0
-    m_HumanBodyBone: 7
-  - name: Chest
-    m_ToRecord: 0
-    m_HumanBodyBone: 8
-  - name: Neck
-    m_ToRecord: 0
-    m_HumanBodyBone: 9
-  - name: Head
-    m_ToRecord: 0
-    m_HumanBodyBone: 10
-  - name: LeftShoulder
-    m_ToRecord: 0
-    m_HumanBodyBone: 11
-  - name: RightShoulder
-    m_ToRecord: 0
-    m_HumanBodyBone: 12
-  - name: LeftUpperArm
-    m_ToRecord: 0
-    m_HumanBodyBone: 13
-  - name: RightUpperArm
-    m_ToRecord: 0
-    m_HumanBodyBone: 14
-  - name: LeftLowerArm
-    m_ToRecord: 0
-    m_HumanBodyBone: 15
-  - name: RightLowerArm
-    m_ToRecord: 0
-    m_HumanBodyBone: 16
-  - name: LeftHand
-    m_ToRecord: 0
-    m_HumanBodyBone: 17
-  - name: RightHand
-    m_ToRecord: 0
-    m_HumanBodyBone: 18
-  - name: LeftToes
-    m_ToRecord: 0
-    m_HumanBodyBone: 19
-  - name: RightToes
-    m_ToRecord: 0
-    m_HumanBodyBone: 20
-  - name: LeftEye
-    m_ToRecord: 0
-    m_HumanBodyBone: 21
-  - name: RightEye
-    m_ToRecord: 0
-    m_HumanBodyBone: 22
-  - name: Jaw
-    m_ToRecord: 0
-    m_HumanBodyBone: 23
-  - name: LeftThumbProximal
-    m_ToRecord: 0
-    m_HumanBodyBone: 24
-  - name: LeftThumbIntermediate
-    m_ToRecord: 0
-    m_HumanBodyBone: 25
-  - name: LeftThumbDistal
-    m_ToRecord: 0
-    m_HumanBodyBone: 26
-  - name: LeftIndexProximal
-    m_ToRecord: 0
-    m_HumanBodyBone: 27
-  - name: LeftIndexIntermediate
-    m_ToRecord: 0
-    m_HumanBodyBone: 28
-  - name: LeftIndexDistal
-    m_ToRecord: 0
-    m_HumanBodyBone: 29
-  - name: LeftMiddleProximal
-    m_ToRecord: 0
-    m_HumanBodyBone: 30
-  - name: LeftMiddleIntermediate
-    m_ToRecord: 0
-    m_HumanBodyBone: 31
-  - name: LeftMiddleDistal
-    m_ToRecord: 0
-    m_HumanBodyBone: 32
-  - name: LeftRingProximal
-    m_ToRecord: 0
-    m_HumanBodyBone: 33
-  - name: LeftRingIntermediate
-    m_ToRecord: 0
-    m_HumanBodyBone: 34
-  - name: LeftRingDistal
-    m_ToRecord: 0
-    m_HumanBodyBone: 35
-  - name: LeftLittleProximal
-    m_ToRecord: 0
-    m_HumanBodyBone: 36
-  - name: LeftLittleIntermediate
-    m_ToRecord: 0
-    m_HumanBodyBone: 37
-  - name: LeftLittleDistal
-    m_ToRecord: 0
-    m_HumanBodyBone: 38
-  - name: RightThumbProximal
-    m_ToRecord: 0
-    m_HumanBodyBone: 39
-  - name: RightThumbIntermediate
-    m_ToRecord: 0
-    m_HumanBodyBone: 40
-  - name: RightThumbDistal
-    m_ToRecord: 0
-    m_HumanBodyBone: 41
-  - name: RightIndexProximal
-    m_ToRecord: 0
-    m_HumanBodyBone: 42
-  - name: RightIndexIntermediate
-    m_ToRecord: 0
-    m_HumanBodyBone: 43
-  - name: RightIndexDistal
-    m_ToRecord: 0
-    m_HumanBodyBone: 44
-  - name: RightMiddleProximal
-    m_ToRecord: 0
-    m_HumanBodyBone: 45
-  - name: RightMiddleIntermediate
-    m_ToRecord: 0
-    m_HumanBodyBone: 46
-  - name: RightMiddleDistal
-    m_ToRecord: 0
-    m_HumanBodyBone: 47
-  - name: RightRingProximal
-    m_ToRecord: 0
-    m_HumanBodyBone: 48
-  - name: RightRingIntermediate
-    m_ToRecord: 0
-    m_HumanBodyBone: 49
-  - name: RightRingDistal
-    m_ToRecord: 0
-    m_HumanBodyBone: 50
-  - name: RightLittleProximal
-    m_ToRecord: 0
-    m_HumanBodyBone: 51
-  - name: RightLittleIntermediate
-    m_ToRecord: 0
-    m_HumanBodyBone: 52
-  - name: RightLittleDistal
-    m_ToRecord: 0
-    m_HumanBodyBone: 53
-  - name: UpperChest
-    m_ToRecord: 0
-    m_HumanBodyBone: 54
+    Hips: 1
+    LeftUpperLeg: 1
+    RightUpperLeg: 1
+    LeftLowerLeg: 1
+    RightLowerLeg: 1
+    LeftFoot: 1
+    RightFoot: 1
+    Spine: 1
+    Chest: 1
+    Neck: 1
+    Head: 1
+    LeftShoulder: 1
+    RightShoulder: 1
+    LeftUpperArm: 1
+    RightUpperArm: 1
+    LeftLowerArm: 1
+    RightLowerArm: 1
+    LeftHand: 1
+    RightHand: 1
+    LeftToes: 1
+    RightToes: 1
+    LeftEye: 1
+    RightEye: 1
+    Jaw: 1
+    LeftFingers: 0
+    RightFingers: 0
+    UpperChest: 1
 --- !u!1 &1707915549
 GameObject:
   m_ObjectHideFlags: 0
@@ -11725,6 +11530,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 171affcd2d7ddf545ae966acd2de57c2, type: 3}
   m_PrefabInstance: {fileID: 2128462622}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4172455820087292540
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4944652857459037684, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_Name
+      value: XR Interaction Hands Setup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6134554960324817944, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_ForwardSource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630820991690574560, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630820991690574560, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630820991690574560, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630820991690574560, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630820991690574560, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630820991690574560, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630820991690574560, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630820991690574560, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630820991690574560, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630820991690574560, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d2bdf8fed71e8cc4fb0d5d8eec9a4eea, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -11735,4 +11601,4 @@ SceneRoots:
   - {fileID: 101356426}
   - {fileID: 1048031954}
   - {fileID: 1702048005}
-  - {fileID: 1447678837}
+  - {fileID: 4172455820087292540}
